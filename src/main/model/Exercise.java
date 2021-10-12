@@ -1,5 +1,8 @@
 package model;
 
+/* Represents an individual exercise with its name, number of goal sets and reps, the weight it was completed with in
+   lb, the equipment used, and the number of sets actually completed
+ */
 public class Exercise {
     private String name;
     private int sets;
@@ -26,12 +29,11 @@ public class Exercise {
 
     // EFFECTS: Returns a string representation of the exercise.
     public String viewExercise() {
-        String row = this.name + "\t "
+        return this.name + "\t "
                 + this.sets + "\t "
                 + this.reps + "\t "
                 + this.weight + "\t "
                 + this.setsCompleted;
-        return row;
     }
 
     // EFFECTS: returns the name of the exercise

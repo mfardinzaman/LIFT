@@ -106,6 +106,36 @@ class RoutineTest {
     }
 
     @Test
+    void indexOfExerciseFirst() {
+        int indexOfFound = testRoutineA.indexOfExercise("Bent Over Barbell Row");
+        assertEquals(0, indexOfFound);
+    }
+
+    @Test
+    void indexOfExerciseMiddle() {
+        int indexOfFound = testRoutineB.indexOfExercise("Overhead Barbell Press");
+        assertEquals(2, indexOfFound);
+    }
+
+    @Test
+    void indexOfExerciseLastRoutineA() {
+        int indexOfFound = testRoutineA.indexOfExercise("Bicep Curl");
+        assertEquals(3, indexOfFound);
+    }
+
+    @Test
+    void indexOfExerciseLastRoutineB() {
+        int indexOfFound = testRoutineB.indexOfExercise("Tricep Extension");
+        assertEquals(4, indexOfFound);
+    }
+
+    @Test
+    void indexOfExerciseNotFound() {
+        int indexOfFound = testRoutineA.indexOfExercise("Tricep Extension");
+        assertEquals(-1, indexOfFound);
+    }
+
+    @Test
     void beginSessionRoutineA() {
         assertFalse(testRoutineA.getInSession());
         assertNull(testRoutineA.getCurrent());
@@ -123,6 +153,34 @@ class RoutineTest {
         testRoutineB.beginSession();
         assertTrue(testRoutineB.getInSession());
         assertEquals("Pullup", testRoutineB.getCurrent().getName());
+    }
+
+    @Test
+    void endSessionRoutineA() {
+        assertFalse(testRoutineA.getInSession());
+        assertNull(testRoutineA.getCurrent());
+
+        testRoutineA.beginSession();
+        assertTrue(testRoutineA.getInSession());
+        assertEquals("Bent Over Barbell Row", testRoutineA.getCurrent().getName());
+
+        testRoutineA.endSession();
+        assertFalse(testRoutineA.getInSession());
+        assertNull(testRoutineA.getCurrent());
+    }
+
+    @Test
+    void endSessionRoutineB() {
+        assertFalse(testRoutineB.getInSession());
+        assertNull(testRoutineB.getCurrent());
+
+        testRoutineB.beginSession();
+        assertTrue(testRoutineB.getInSession());
+        assertEquals("Pullup", testRoutineB.getCurrent().getName());
+
+        testRoutineB.endSession();
+        assertFalse(testRoutineB.getInSession());
+        assertNull(testRoutineB.getCurrent());
     }
 
     @Test
@@ -218,7 +276,7 @@ class RoutineTest {
         testRoutineA.addSetToProgress();
         assertFalse(testRoutineA.getInSession());
         assertNull(testRoutineA.getCurrent());
-        assertEquals(0, testRoutineA.getProgress());;
+        assertEquals(0, testRoutineA.getProgress());
         assertEquals(5, exercises.get(3).getSetsCompleted());
     }
 
@@ -328,12 +386,23 @@ class RoutineTest {
     }
 
     @Test
-    void viewWorkoutRoutineAEmpty() {
-        assertEquals("Bent Over Barbell Row\t 3\t 5\t 0\t 0\n" +
-                "Barbell Bench Press\t 3\t 5\t 0\t 0\n" +
-                "Barbell Squat\t 3\t 5\t 0\t 0\n" +
-                "Bicep Curl\t 5\t 10\t 0\t 0\n" +
-                "Met Goal: No",testRoutineA.viewWorkout());
+    void viewWorkoutRoutineANotStarted() {
+        assertEquals("Bent Over Barbell Row\t 3\t 5\t 0\t 0\n"
+                + "Barbell Bench Press\t 3\t 5\t 0\t 0\n"
+                + "Barbell Squat\t 3\t 5\t 0\t 0\n"
+                + "Bicep Curl\t 5\t 10\t 0\t 0\n"
+                + "Met Goal: No",testRoutineA.viewWorkout());
+    }
+
+    @Test
+    void viewWorkoutRoutineAJustStarted() {
+        testRoutineA.beginSession();
+
+        assertEquals("* Bent Over Barbell Row\t 3\t 5\t 0\t 0\n"
+                + "Barbell Bench Press\t 3\t 5\t 0\t 0\n"
+                + "Barbell Squat\t 3\t 5\t 0\t 0\n"
+                + "Bicep Curl\t 5\t 10\t 0\t 0\n"
+                + "Met Goal: No",testRoutineA.viewWorkout());
     }
 
     @Test
@@ -347,11 +416,31 @@ class RoutineTest {
             }
         }
 
-        assertEquals("Bent Over Barbell Row\t 3\t 5\t 95\t 3\n" +
-                "Barbell Bench Press\t 3\t 5\t 145\t 3\n" +
-                "Barbell Squat\t 3\t 5\t 195\t 3\n" +
-                "Bicep Curl\t 5\t 10\t 0\t 0\n" +
-                "Met Goal: No",testRoutineA.viewWorkout());
+        assertEquals("Bent Over Barbell Row\t 3\t 5\t 95\t 3\n"
+                + "Barbell Bench Press\t 3\t 5\t 145\t 3\n"
+                + "Barbell Squat\t 3\t 5\t 195\t 3\n"
+                + "* Bicep Curl\t 5\t 10\t 0\t 0\n"
+                + "Met Goal: No",testRoutineA.viewWorkout());
+    }
+
+    @Test
+    void viewWorkoutRoutineBPartial() {
+        testRoutineB.beginSession();
+
+        for (int i = 0; i < 3; i++) {
+            testRoutineB.addSetToProgress();
+        }
+        testRoutineB.addWeightToCurrent(45);
+        testRoutineB.addSetToProgress();
+        testRoutineB.addWeightToCurrent(0);
+        testRoutineB.addSetToProgress();
+
+        assertEquals("Pullup\t 3\t 5\t 0\t 3\n"
+                + "Deadlift\t 1\t 5\t 135\t 1\n"
+                + "* Overhead Barbell Press\t 3\t 5\t 45\t 1\n"
+                + "Incline Dumbbell Press\t 5\t 10\t 0\t 0\n"
+                + "Tricep Extension\t 5\t 10\t 0\t 0\n"
+                + "Met Goal: No",testRoutineB.viewWorkout());
     }
 
     @Test

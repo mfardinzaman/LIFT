@@ -2,6 +2,9 @@ package model;
 
 import java.util.ArrayList;
 
+/* A workout routine with its associated workout list, whether the user is currently in session, the current exercise
+*  being done, and the current sets progress.
+*/
 public class Routine {
     private ArrayList<Exercise> exercises;
     private boolean inSession;
@@ -27,22 +30,41 @@ public class Routine {
         e.setSets(sets);
         e.setReps(reps);
 
-        this.exercises.add(e);
+        exercises.add(e);
     }
 
     // REQUIRES: Exercise must be in the list
     // MODIFIES: this
     // EFFECTS: Removes exercise from exercise list
     public void removeExercise(Exercise e) {
-        this.exercises.remove(e);
+        exercises.remove(e);
+    }
+
+    // REQUIRES: name must match an existing exercise in exercises
+    // EFFECTS: returns the exercise from exercises with the given name
+    public int indexOfExercise(String name) {
+        for (Exercise e : exercises) {
+            if (name.equals(e.getName())) {
+                return exercises.indexOf(e);
+            }
+        }
+        return -1;
     }
 
     // REQUIRES: must not be in session
     // MODIFIES: this
     // EFFECTS: Begins a session by setting inSession to true and first exercise as current.
     public void beginSession() {
-        this.inSession = true;
-        this.current = this.exercises.get(0);
+        inSession = true;
+        current = exercises.get(0);
+    }
+
+    // REQUIRES: must be in session
+    // MODIFIES: this
+    // EFFECTS: Ends a session by setting inSession to false and current as null.
+    public void endSession() {
+        inSession = false;
+        current = null;
     }
 
     // REQUIRES: weight is non-zero positive integer and must be in session
@@ -52,7 +74,7 @@ public class Routine {
                 - if machine or dumbbell: sets weight normally
      */
     public void addWeightToCurrent(int weight) {
-        if (current.getEquipment() == "Barbell") {
+        if (current.getEquipment().equals("Barbell")) {
             int total = 2 * weight + WEIGHT_OF_BAR;
             current.setWeight(total);
         } else {
@@ -71,8 +93,7 @@ public class Routine {
             current.setSetsCompleted(progress + 1);
             progress = 0;
             if (exercises.indexOf(current) == exercises.size() - 1) {
-                current = null;
-                inSession = false;
+                endSession();
             } else {
                 int indexOfCurrent = exercises.indexOf(current);
                 current = exercises.get(indexOfCurrent + 1);
@@ -88,8 +109,7 @@ public class Routine {
     public void skipExercise() {
         progress = 0;
         if (exercises.indexOf(current) == exercises.size() - 1) {
-            current = null;
-            inSession = false;
+            endSession();
         } else {
             int indexOfCurrent = exercises.indexOf(current);
             current = exercises.get(indexOfCurrent + 1);
@@ -106,16 +126,22 @@ public class Routine {
         return true;
     }
 
+    // REQUIRES: this.exercises must be not empty
     // EFFECTS: Returns a string representation of the workout.
     public String viewWorkout() {
         String view = "";
         for (Exercise e : exercises) {
+            if (e == current) {
+                view += "* ";
+            }
             view += e.viewExercise() + "\n";
         }
+
+        view += "Met Goal: ";
         if (hasMetAllGoals()) {
-            view += "Met Goal: Yes";
+            view += "Yes";
         } else {
-            view += "Met Goal: No";
+            view += "No";
         }
 
         return view;
@@ -128,11 +154,12 @@ public class Routine {
     public boolean getInSession() {
         return inSession;
     }
+
     public Exercise getCurrent() {
         return current;
     }
 
-   public int getProgress() {
+    public int getProgress() {
         return progress;
     }
 }
