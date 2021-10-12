@@ -15,8 +15,10 @@ I hope this project will help motivate me into getting into the gym. It bridges 
 in programming.
 
 ### User Stories:
-- As a user, I want to create an exercise
-- As a user, I want to create a workout routine
+- As a user, I want to create exercises
+- As a user, I want to create a workout routine with my exercises (add/remove)
 - As a user, I want to view different workouts that I've made
-- As a user, I want to keep track of my progress during a session
-- As a user, I want to save the details of a session
+- As a user, I want to start a workout session and keep track of it
+- As a user, I want to know the total weight for the exercise given the plate weights for barbell exercises
+- As a user, I want to be able to skip sets if I choose to
+- As a user, I want to know if I was able to meet my goal for sets and reps
