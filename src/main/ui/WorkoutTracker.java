@@ -153,7 +153,11 @@ public class WorkoutTracker {
 
     // EFFECTS: displays workout routine to user
     private void doView() {
-        System.out.println(routine.viewWorkout());
+        if (routine.getExercises().isEmpty()) {
+            System.out.println("\nNo exercises in routine!");
+        } else {
+            System.out.println(routine.viewWorkout());
+        }
     }
 
     // MODIFIES: this
