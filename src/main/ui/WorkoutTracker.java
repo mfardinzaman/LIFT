@@ -60,6 +60,7 @@ public class WorkoutTracker {
         System.out.println("\tv -> View routine");
         System.out.println("\tb -> Begin session");
         System.out.println("\tq -> Quit");
+        System.out.print("Make your selection: ");
     }
 
     // EFFECTS: process user command in the home menu
@@ -100,6 +101,7 @@ public class WorkoutTracker {
         System.out.println("\ta -> Add new exercise");
         System.out.println("\tr -> Remove exercise");
         System.out.println("\tb -> Back");
+        System.out.print("Make your selection: ");
     }
 
     // EFFECTS: process user command in the modify menu
@@ -116,36 +118,35 @@ public class WorkoutTracker {
     // MODIFIES: this
     // EFFECTS: adds new exercise to exercises in routine
     private void addNewExercise() {
-        System.out.println("\nName: ");
+        System.out.print("\nName: ");
         String name = input.next();
-        System.out.println("\nEquipment");
+        System.out.print("Equipment: ");
         String equipment = input.next();
         Exercise newExercise = new Exercise(name, equipment);
 
-        System.out.println("\nSets: ");
+        System.out.print("Sets: ");
         int sets = input.nextInt();
-        System.out.println("\nReps: ");
+        System.out.print("Reps: ");
         int reps = input.nextInt();
         routine.addExercise(newExercise, sets, reps);
     }
 
-    // REQUIRES: exercises is not empty and exercise must be in exercises
     // MODIFIES: this
     // EFFECTS: removes exercise already in exercises
     private void removeExercise() {
         if (routine.getExercises().isEmpty()) {
             System.out.println("\nNo exercises in routine!");
         } else {
-            System.out.println("\nName: ");
+            System.out.print("\nName: ");
             String name = input.next();
             int indexOfExercise = routine.indexOfExercise(name);
 
             if (indexOfExercise == -1) {
-                System.out.println("\nExercise does not exist");
+                System.out.println("Exercise does not exist");
             } else {
                 Exercise exerciseToRemove = routine.getExercises().get(indexOfExercise);
                 routine.removeExercise(exerciseToRemove);
-                System.out.println("\n" + name + " removed");
+                System.out.println(name + " removed");
             }
         }
     }
@@ -194,7 +195,9 @@ public class WorkoutTracker {
             System.out.println("\tw -> Set weight of exercise");
             System.out.println("\ta -> Add set");
             System.out.println("\ts -> Skip exercise");
+            System.out.println("\tv -> View routine");
             System.out.println("\tb -> Back");
+            System.out.print("Make your selection: ");
         }
     }
 
@@ -206,6 +209,8 @@ public class WorkoutTracker {
             doAddSet();
         } else if (command.equals("s")) {
             doSkipExercise();
+        } else if (command.equals("v")) {
+            doView();
         } else {
             System.out.println("\nNot a valid selection");
         }
@@ -214,7 +219,7 @@ public class WorkoutTracker {
     // MODIFIES: this
     // EFFECTS: sets weight for current exercise
     private void doSetWeight() {
-        System.out.println("\nWeight (in lb): ");
+        System.out.print("\nWeight (in lb): ");
         int weight = input.nextInt();
         routine.addWeightToCurrent(weight);
     }

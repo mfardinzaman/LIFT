@@ -12,7 +12,7 @@ public class Exercise {
     private int setsCompleted;
 
     // REQUIRES: equipment must be barbell, dumbbell, machine, or none
-    // EFFECTS: Creates a new exercise with the given name. Sets number of sets, reps, and weight to 0.
+    // EFFECTS: creates a new exercise with the given name and sets number of sets, reps, and weight to 0
     public Exercise(String name, String equipment) {
         this.name = name;
         this.sets = 0;
@@ -27,7 +27,7 @@ public class Exercise {
         return sets == setsCompleted; // stub
     }
 
-    // EFFECTS: Returns a string representation of the exercise.
+    // EFFECTS: returns a string representation of the exercise.
     public String viewExercise() {
         return this.name + "\t "
                 + this.sets + "\t "
