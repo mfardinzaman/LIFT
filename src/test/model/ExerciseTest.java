@@ -11,8 +11,8 @@ public class ExerciseTest {
 
     @BeforeEach
     void runBefore() {
-        bentOverBarbellRow = new Exercise("Bent Over Barbell Row", "Barbell");
-        barbellBenchPress = new Exercise("Barbell Bench Press", "Barbell");
+        bentOverBarbellRow = new Exercise("Bent Over Barbell Row", Equipment.Barbell);
+        barbellBenchPress = new Exercise("Barbell Bench Press", Equipment.Barbell);
     }
 
     @Test
