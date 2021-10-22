@@ -8,12 +8,12 @@ public class Exercise {
     private int sets;
     private int reps;
     private int weight;
-    private String equipment;
+    private Equipment equipment;
     private int setsCompleted;
 
     // REQUIRES: equipment must be barbell, dumbbell, machine, or none
     // EFFECTS: creates a new exercise with the given name and sets number of sets, reps, and weight to 0
-    public Exercise(String name, String equipment) {
+    public Exercise(String name, Equipment equipment) {
         this.name = name;
         this.sets = 0;
         this.reps = 0;
@@ -78,7 +78,7 @@ public class Exercise {
     }
 
     // EFFECTS: returns equipment type
-    public String getEquipment() {
+    public Equipment getEquipment() {
         return equipment;
     }
 

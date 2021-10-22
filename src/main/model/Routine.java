@@ -73,7 +73,7 @@ public class Routine {
     //          - if equipment is barbell -> calculates total weight based on input plate and bar
     //          - if machine or dumbbell -> sets weight normally
     public void addWeightToCurrent(int weight) {
-        if (current.getEquipment().equals("Barbell")) {
+        if (current.getEquipment() == Equipment.Barbell) {
             int total = 2 * weight + WEIGHT_OF_BAR;
             current.setWeight(total);
         } else {
