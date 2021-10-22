@@ -22,3 +22,5 @@ in programming.
 - As a user, I want to know the total weight for the exercise given the plate weights for barbell exercises
 - As a user, I want to be able to skip sets if I choose to
 - As a user, I want to know if I was able to meet my goal for sets and reps
+- As a user, I want to save a workout routine
+- As a user, I want to load a workout routine from file and use it during a session
