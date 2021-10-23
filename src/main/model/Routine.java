@@ -1,11 +1,16 @@
 package model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+import persistence.Writeable;
+
 import java.util.ArrayList;
 
 /* A workout routine with its associated workout list, whether the user is currently in session, the current exercise
 *  being done, and the current sets progress.
 */
-public class Routine {
+public class Routine implements Writeable {
+    private String name;
     private ArrayList<Exercise> exercises;
     private boolean inSession;
     private Exercise current;
@@ -15,7 +20,8 @@ public class Routine {
 
     // EFFECTS: initializes a workout routine that is not in session with empty exercise list,
     //          no currently selected exercise, and progress set to 0
-    public Routine() {
+    public Routine(String name) {
+        this.name = name;
         exercises = new ArrayList<>();
         inSession = false;
         current = null;
@@ -127,22 +133,32 @@ public class Routine {
     // REQUIRES: this.exercises must be not empty
     // EFFECTS: returns a string representation of the workout
     public String viewWorkout() {
-        String view = "";
+        StringBuilder view = new StringBuilder();
+        view.append(getName() + "\n");
+
         for (Exercise e : exercises) {
             if (e == current) {
-                view += "* ";
+                view.append("* ");
             }
-            view += e.viewExercise() + "\n";
+            view.append(e.viewExercise()).append("\n");
         }
 
-        view += "Met Goal: ";
+        view.append("Met Goal: ");
         if (hasMetAllGoals()) {
-            view += "Yes";
+            view.append("Yes");
         } else {
-            view += "No";
+            view.append("No");
         }
 
-        return view;
+        return view.toString();
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public ArrayList<Exercise> getExercises() {
@@ -159,5 +175,28 @@ public class Routine {
 
     public int getProgress() {
         return progress;
+    }
+
+    @Override
+    // EFFECTS: returns this as a JSON object
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("name", name);
+        json.put("exercises", exercisesToJson());
+
+        return json;
+    }
+
+    // REQUIRES:
+    // MODIFIES:
+    // EFFECTS: returns exercises in this routine as a JSON array
+    private JSONArray exercisesToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (Exercise e : exercises) {
+            jsonArray.put(e.toJson());
+        }
+
+        return jsonArray;
     }
 }

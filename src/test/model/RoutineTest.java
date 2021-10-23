@@ -25,9 +25,9 @@ class RoutineTest {
 
     @BeforeEach
     void runBefore() {
-        testRoutine = new Routine();
-        testRoutineA = new Routine();
-        testRoutineB = new Routine();
+        testRoutine = new Routine("Test");
+        testRoutineA = new Routine("Test Routine A");
+        testRoutineB = new Routine("Test Routine B");
 
         bentOverBarbellRow = new Exercise("Bent Over Barbell Row", Equipment.Barbell);
         barbellBenchPress = new Exercise("Barbell Bench Press", Equipment.Barbell);
@@ -387,7 +387,8 @@ class RoutineTest {
 
     @Test
     void viewWorkoutRoutineANotStarted() {
-        assertEquals("Bent Over Barbell Row\t 3\t 5\t 0\t 0\n"
+        assertEquals("Test Routine A\n"
+                + "Bent Over Barbell Row\t 3\t 5\t 0\t 0\n"
                 + "Barbell Bench Press\t 3\t 5\t 0\t 0\n"
                 + "Barbell Squat\t 3\t 5\t 0\t 0\n"
                 + "Bicep Curl\t 5\t 10\t 0\t 0\n"
@@ -398,7 +399,8 @@ class RoutineTest {
     void viewWorkoutRoutineAJustStarted() {
         testRoutineA.beginSession();
 
-        assertEquals("* Bent Over Barbell Row\t 3\t 5\t 0\t 0\n"
+        assertEquals("Test Routine A\n"
+                + "* Bent Over Barbell Row\t 3\t 5\t 0\t 0\n"
                 + "Barbell Bench Press\t 3\t 5\t 0\t 0\n"
                 + "Barbell Squat\t 3\t 5\t 0\t 0\n"
                 + "Bicep Curl\t 5\t 10\t 0\t 0\n"
@@ -416,7 +418,8 @@ class RoutineTest {
             }
         }
 
-        assertEquals("Bent Over Barbell Row\t 3\t 5\t 95\t 3\n"
+        assertEquals("Test Routine A\n"
+                + "Bent Over Barbell Row\t 3\t 5\t 95\t 3\n"
                 + "Barbell Bench Press\t 3\t 5\t 145\t 3\n"
                 + "Barbell Squat\t 3\t 5\t 195\t 3\n"
                 + "* Bicep Curl\t 5\t 10\t 0\t 0\n"
@@ -435,7 +438,8 @@ class RoutineTest {
         testRoutineB.addWeightToCurrent(0);
         testRoutineB.addSetToProgress();
 
-        assertEquals("Pullup\t 3\t 5\t 0\t 3\n"
+        assertEquals("Test Routine B\n"
+                + "Pullup\t 3\t 5\t 0\t 3\n"
                 + "Deadlift\t 1\t 5\t 135\t 1\n"
                 + "* Overhead Barbell Press\t 3\t 5\t 45\t 1\n"
                 + "Incline Dumbbell Press\t 5\t 10\t 0\t 0\n"
@@ -465,7 +469,8 @@ class RoutineTest {
             testRoutineB.addSetToProgress();
         }
 
-        assertEquals("Pullup\t 3\t 5\t 0\t 3\n" +
+        assertEquals("Test Routine B\n"
+                + "Pullup\t 3\t 5\t 0\t 3\n" +
                 "Deadlift\t 1\t 5\t 135\t 1\n" +
                 "Overhead Barbell Press\t 3\t 5\t 45\t 3\n" +
                 "Incline Dumbbell Press\t 5\t 10\t 25\t 5\n" +

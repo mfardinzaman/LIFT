@@ -1,9 +1,12 @@
 package model;
 
+import org.json.JSONObject;
+import persistence.Writeable;
+
 /* Represents an individual exercise with its name, number of goal sets and reps, the weight it was completed with in
    lb, the equipment used, and the number of sets actually completed
  */
-public class Exercise {
+public class Exercise implements Writeable {
     private String name;
     private int sets;
     private int reps;
@@ -92,5 +95,17 @@ public class Exercise {
     // EFFECTS: sets the number of sets completed
     public void setSetsCompleted(int setsCompleted) {
         this.setsCompleted = setsCompleted;
+    }
+
+    @Override
+    // EFFECTS: returns this as a JSON object
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("name", name);
+        json.put("sets", sets);
+        json.put("reps", reps);
+        json.put("equipment", equipment);
+
+        return json;
     }
 }

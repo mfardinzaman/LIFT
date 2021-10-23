@@ -49,7 +49,7 @@ public class WorkoutTracker {
     // MODIFIES: this
     // EFFECTS: initializes routine
     private void init() {
-        routine = new Routine();
+        routine = new Routine("Default Routine");
         input = new Scanner(System.in);
         input.useDelimiter("\n");
     }
@@ -100,6 +100,7 @@ public class WorkoutTracker {
     // EFFECTS: displays modify menu of options to user
     private void displayModifyMenu() {
         System.out.println("\nSelect from:");
+        System.out.println("\tn -> Change routine name");
         System.out.println("\ta -> Add new exercise");
         System.out.println("\tr -> Remove exercise");
         System.out.println("\tb -> Back");
@@ -108,13 +109,23 @@ public class WorkoutTracker {
 
     // EFFECTS: process user command in the modify menu
     private void processModifyCommand(String command) {
-        if (command.equals("a")) {
-            addNewExercise();
-        } else if (command.equals("r")) {
-            removeExercise();
-        } else {
-            System.out.println("\nNot a valid selection");
+        switch (command) {
+            case "n":
+                changeName();
+            case "a":
+                addNewExercise();
+            case "r":
+                removeExercise();
+            default:
+                System.out.println("\nNot a valid selection");
         }
+    }
+
+    private void changeName() {
+        System.out.print("\nName: ");
+        String name = input.next();
+
+        routine.setName(name);
     }
 
     // MODIFIES: this
