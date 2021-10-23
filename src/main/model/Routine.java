@@ -7,8 +7,8 @@ import persistence.Writeable;
 import java.util.ArrayList;
 
 /* A workout routine with its associated workout list, whether the user is currently in session, the current exercise
-*  being done, and the current sets progress.
-*/
+   being done, and the current sets progress.
+ */
 public class Routine implements Writeable {
     private String name;
     private ArrayList<Exercise> exercises;
@@ -44,18 +44,6 @@ public class Routine implements Writeable {
     public void removeExercise(int index) {
         exercises.remove(index);
     }
-
-    // EFFECTS: returns the index of exercise of given name in exercises,
-    //          returns -1 if not in list
-    // TODO: remove?
-//    public int indexOfExercise(String name) {
-//        for (Exercise e : exercises) {
-//            if (name.equals(e.getName())) {
-//                return exercises.indexOf(e);
-//            }
-//        }
-//        return -1;
-//    }
 
     // REQUIRES: must not be in session
     // MODIFIES: this
@@ -190,8 +178,6 @@ public class Routine implements Writeable {
         return json;
     }
 
-    // REQUIRES:
-    // MODIFIES:
     // EFFECTS: returns exercises in this routine as a JSON array
     private JSONArray exercisesToJson() {
         JSONArray jsonArray = new JSONArray();

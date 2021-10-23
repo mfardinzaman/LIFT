@@ -107,36 +107,6 @@ class RoutineTest {
         assertEquals(4, exercises.size());
     }
 
-//    @Test
-//    void indexOfExerciseFirst() {
-//        int indexOfFound = testRoutineA.indexOfExercise("Bent Over Barbell Row");
-//        assertEquals(0, indexOfFound);
-//    }
-//
-//    @Test
-//    void indexOfExerciseMiddle() {
-//        int indexOfFound = testRoutineB.indexOfExercise("Overhead Barbell Press");
-//        assertEquals(2, indexOfFound);
-//    }
-//
-//    @Test
-//    void indexOfExerciseLastRoutineA() {
-//        int indexOfFound = testRoutineA.indexOfExercise("Bicep Curl");
-//        assertEquals(3, indexOfFound);
-//    }
-//
-//    @Test
-//    void indexOfExerciseLastRoutineB() {
-//        int indexOfFound = testRoutineB.indexOfExercise("Tricep Extension");
-//        assertEquals(4, indexOfFound);
-//    }
-//
-//    @Test
-//    void indexOfExerciseNotFound() {
-//        int indexOfFound = testRoutineA.indexOfExercise("Tricep Extension");
-//        assertEquals(-1, indexOfFound);
-//    }
-
     @Test
     void beginSessionRoutineA() {
         assertFalse(testRoutineA.getInSession());

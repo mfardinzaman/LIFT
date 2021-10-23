@@ -13,7 +13,9 @@ import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-// Workout tracker application inspired by Teller application
+/* Workout tracker application
+   Inspired by TellerApp
+ */
 public class WorkoutTracker {
     private static final String DEFAULT_PATH = "./data/";
 
@@ -154,6 +156,8 @@ public class WorkoutTracker {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: creates a new empty routine with the input name
     private void newRoutine() {
         System.out.print("\nRoutine Name: ");
         String name = input.next();
@@ -162,6 +166,8 @@ public class WorkoutTracker {
         routine.setName(name);
     }
 
+    // MODIFIES: this
+    // EFFECTS: displays available routines and loads routine from file
     private void loadRoutine() {
         ArrayList<String> fileNames = getFiles();
         int index = 1;
@@ -184,6 +190,7 @@ public class WorkoutTracker {
         }
     }
 
+    // EFFECTS: retrieves files in ./data/ folder
     private ArrayList<String> getFiles() {
         String[] fileNames;
 
@@ -193,6 +200,7 @@ public class WorkoutTracker {
         return filterJson(fileNames);
     }
 
+    // EFFECTS: filters fileNames for only *.json
     private ArrayList<String> filterJson(String[] fileNames) {
         ArrayList<String> filterFileNames = new ArrayList<>();
         for (String fileName : fileNames) {
@@ -204,6 +212,7 @@ public class WorkoutTracker {
         return filterFileNames;
     }
 
+    // EFFECTS: saves routine to file
     private void saveRoutine() {
         String path = DEFAULT_PATH + routine.getName().replace(" ", "_") + ".json";
         jsonWriter.setDestination(path);
@@ -218,6 +227,8 @@ public class WorkoutTracker {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: sets name of current routine
     private void changeName() {
         System.out.println("\nCurrent Name: " + routine.getName());
         System.out.print("New Name (press b to cancel): ");
@@ -284,7 +295,7 @@ public class WorkoutTracker {
                 routine.removeExercise(index);
                 System.out.println(name + " removed");
             } catch (IndexOutOfBoundsException e) {
-                System.out.println("Exercise does not exist");
+                System.out.println("Not a valid selection");
             }
         }
     }
@@ -364,7 +375,8 @@ public class WorkoutTracker {
     // MODIFIES: this
     // EFFECTS: sets weight for current exercise
     private void doSetWeight() {
-        System.out.print("\nWeight (in lb): ");
+        System.out.println("\nNOTE: Input plate weight on one side for barbell exercises");
+        System.out.print("Weight (in lb): ");
         int weight = input.nextInt();
         routine.addWeightToCurrent(weight);
     }

@@ -12,8 +12,9 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.stream.Stream;
 
-// Represents a reader that reads routine from JSON data stored in file
-// Inspired by JsonSerializationDemo
+/* Represents a reader that reads routine from JSON data stored in file
+   Inspired by JsonSerializationDemo
+ */
 public class JsonReader {
     private String source;
 
