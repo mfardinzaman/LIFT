@@ -18,8 +18,7 @@ public class JsonReader {
     private String source;
 
     // EFFECTS: constructs reader to read from source file
-    public JsonReader(String source) {
-        this.source = source;
+    public JsonReader() {
     }
 
     // EFFECTS: reads Routine from file and returns it;
@@ -44,7 +43,8 @@ public class JsonReader {
     // EFFECTS: parses routine from JSON object and returns it
     private Routine parseRoutine(JSONObject jsonObject) {
         String name = jsonObject.getString("name");
-        Routine r = new Routine(name);
+        Routine r = new Routine();
+        r.setName(name);
         addExercises(r, jsonObject);
         return r;
     }
@@ -70,6 +70,10 @@ public class JsonReader {
         Exercise exercise = new Exercise(name, equipment);
 
         r.addExercise(exercise, sets, reps);
+    }
+
+    public void setSource(String source) {
+        this.source = source;
     }
 }
 

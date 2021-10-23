@@ -14,7 +14,8 @@ import static org.junit.jupiter.api.Assertions.fail;
 public class JsonReaderTest extends JsonTest{
     @Test
     void testReaderNonExistentFile() {
-        JsonReader reader = new JsonReader("./data/noSuchFile.json");
+        JsonReader reader = new JsonReader();
+        reader.setSource("./data/noSuchFile.json");
         try {
             Routine r = reader.read();
             fail("IOException expected");
@@ -25,7 +26,8 @@ public class JsonReaderTest extends JsonTest{
 
     @Test
     void testReaderEmptyRoutine() {
-        JsonReader reader = new JsonReader("./data/testEmptyRoutine.json");
+        JsonReader reader = new JsonReader();
+        reader.setSource("./data/testEmptyRoutine.json");
         try {
             Routine r = reader.read();
             assertEquals("Empty Routine", r.getName());
@@ -37,7 +39,8 @@ public class JsonReaderTest extends JsonTest{
 
     @Test
     void testReaderRoutineA() {
-        JsonReader reader = new JsonReader("./data/testRoutineA.json");
+        JsonReader reader = new JsonReader();
+        reader.setSource("./data/testRoutineA.json");
         try {
             Routine r = reader.read();
             assertEquals("Test Routine A", r.getName());
@@ -56,7 +59,8 @@ public class JsonReaderTest extends JsonTest{
 
     @Test
     void testReaderRoutineB() {
-        JsonReader reader = new JsonReader("./data/testRoutineB.json");
+        JsonReader reader = new JsonReader();
+        reader.setSource("./data/testRoutineB.json");
         try {
             Routine r = reader.read();
             assertEquals("Test Routine B", r.getName());

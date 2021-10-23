@@ -15,8 +15,9 @@ public class JsonWriterTest extends JsonTest{
     @Test
     void testWriterInvalidFile() {
         try {
-            Routine r = new Routine("Empty Routine");
-            JsonWriter writer = new JsonWriter("./data/my\0illegal:fileName.json");
+            Routine r = new Routine();
+            JsonWriter writer = new JsonWriter();
+            writer.setDestination("./data/my\0illegal:fileName.json");
             writer.open();
             fail("IOException was expected");
         } catch (IOException e) {
@@ -27,13 +28,18 @@ public class JsonWriterTest extends JsonTest{
     @Test
     void testWriterEmptyRoutine() {
         try {
-            Routine r = new Routine("Empty Routine");
-            JsonWriter writer = new JsonWriter("./data/testEmptyRoutine.json");
+            Routine r = new Routine();
+            r.setName("Empty Routine");
+            String path = "./data/testEmptyRoutine.json";
+
+            JsonWriter writer = new JsonWriter();
+            writer.setDestination(path);
             writer.open();
             writer.write(r);
             writer.close();
 
-            JsonReader reader = new JsonReader("./data/testEmptyRoutine.json");
+            JsonReader reader = new JsonReader();
+            reader.setSource(path);
             r = reader.read();
             assertEquals("Empty Routine", r.getName());
             assertEquals(0, r.getExercises().size());
@@ -45,7 +51,8 @@ public class JsonWriterTest extends JsonTest{
     @Test
     void testWriterRoutineA() {
         try {
-            Routine r = new Routine("Test Routine A");
+            Routine r = new Routine();
+            r.setName("Test Routine A");
             Exercise bentOverBarbellRow = new Exercise("Bent Over Barbell Row", Equipment.Barbell);
             Exercise barbellBenchPress = new Exercise("Barbell Bench Press", Equipment.Barbell);
             Exercise barbellSquat = new Exercise("Barbell Squat", Equipment.Barbell);
@@ -55,12 +62,16 @@ public class JsonWriterTest extends JsonTest{
             r.addExercise(barbellSquat, 3, 5);
             r.addExercise(bicepCurl, 5, 10);
 
-            JsonWriter writer = new JsonWriter("./data/testRoutineA.json");
+            String path = "./data/testRoutineA.json";
+
+            JsonWriter writer = new JsonWriter();
+            writer.setDestination(path);
             writer.open();
             writer.write(r);
             writer.close();
 
-            JsonReader reader = new JsonReader("./data/testRoutineA.json");
+            JsonReader reader = new JsonReader();
+            reader.setSource(path);
             r = reader.read();
             assertEquals("Test Routine A", r.getName());
 
@@ -79,7 +90,8 @@ public class JsonWriterTest extends JsonTest{
     @Test
     void testWriterRoutineB() {
         try {
-            Routine r = new Routine("Test Routine B");
+            Routine r = new Routine();
+            r.setName("Test Routine B");
             Exercise pullup = new Exercise("Pullup", Equipment.None);
             Exercise deadlift = new Exercise("Deadlift", Equipment.Barbell);
             Exercise overheadBarbellPress = new Exercise("Overhead Barbell Press", Equipment.Barbell);
@@ -91,12 +103,16 @@ public class JsonWriterTest extends JsonTest{
             r.addExercise(inclineDumbbellPress, 5, 10);
             r.addExercise(tricepExtension, 5, 10);
 
-            JsonWriter writer = new JsonWriter("./data/testRoutineB.json");
+            String path = "./data/testRoutineB.json";
+
+            JsonWriter writer = new JsonWriter();
+            writer.setDestination(path);
             writer.open();
             writer.write(r);
             writer.close();
 
-            JsonReader reader = new JsonReader("./data/testRoutineB.json");
+            JsonReader reader = new JsonReader();
+            reader.setSource(path);
             r = reader.read();
             assertEquals("Test Routine B", r.getName());
 

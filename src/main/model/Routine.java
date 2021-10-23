@@ -20,8 +20,8 @@ public class Routine implements Writeable {
 
     // EFFECTS: initializes a workout routine that is not in session with empty exercise list,
     //          no currently selected exercise, and progress set to 0
-    public Routine(String name) {
-        this.name = name;
+    public Routine() {
+        this.name = "Default Routine";
         exercises = new ArrayList<>();
         inSession = false;
         current = null;
@@ -41,20 +41,21 @@ public class Routine implements Writeable {
     // REQUIRES: Exercise must be in the list
     // MODIFIES: this
     // EFFECTS: removes exercise from exercise list
-    public void removeExercise(Exercise e) {
-        exercises.remove(e);
+    public void removeExercise(int index) {
+        exercises.remove(index);
     }
 
     // EFFECTS: returns the index of exercise of given name in exercises,
     //          returns -1 if not in list
-    public int indexOfExercise(String name) {
-        for (Exercise e : exercises) {
-            if (name.equals(e.getName())) {
-                return exercises.indexOf(e);
-            }
-        }
-        return -1;
-    }
+    // TODO: remove?
+//    public int indexOfExercise(String name) {
+//        for (Exercise e : exercises) {
+//            if (name.equals(e.getName())) {
+//                return exercises.indexOf(e);
+//            }
+//        }
+//        return -1;
+//    }
 
     // REQUIRES: must not be in session
     // MODIFIES: this
@@ -136,11 +137,13 @@ public class Routine implements Writeable {
         StringBuilder view = new StringBuilder();
         view.append(getName() + "\n");
 
+        int num = 1;
         for (Exercise e : exercises) {
             if (e == current) {
                 view.append("* ");
             }
-            view.append(e.viewExercise()).append("\n");
+            view.append(num + " " + e.viewExercise() + "\n");
+            num++;
         }
 
         view.append("Met Goal: ");

@@ -3,13 +3,24 @@ package ui;
 import model.Equipment;
 import model.Exercise;
 import model.Routine;
+import persistence.JsonReader;
+import persistence.JsonWriter;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.sql.Array;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 // Workout tracker application inspired by Teller application
 public class WorkoutTracker {
+    private static final String DEFAULT_PATH = "./data/";
+
     private Routine routine;
     private Scanner input;
+    private JsonWriter jsonWriter;
+    private JsonReader jsonReader;
 
     // EFFECTS: runs the tracker app
     public WorkoutTracker() {
@@ -49,9 +60,11 @@ public class WorkoutTracker {
     // MODIFIES: this
     // EFFECTS: initializes routine
     private void init() {
-        routine = new Routine("Default Routine");
         input = new Scanner(System.in);
         input.useDelimiter("\n");
+        routine = new Routine();
+        jsonWriter = new JsonWriter();
+        jsonReader = new JsonReader();
     }
 
     // EFFECTS: displays home menu of options to user
@@ -69,12 +82,16 @@ public class WorkoutTracker {
         switch (command) {
             case "m":
                 doModify();
+                break;
             case "v":
                 doView();
+                break;
             case "s":
                 doSession();
+                break;
             default:
                 System.out.println("\nNot a valid selection");
+                break;
         }
     }
 
@@ -100,7 +117,10 @@ public class WorkoutTracker {
     // EFFECTS: displays modify menu of options to user
     private void displayModifyMenu() {
         System.out.println("\nSelect from:");
-        System.out.println("\tn -> Change routine name");
+        System.out.println("\tn -> New routine");
+        System.out.println("\tl -> Load routine");
+        System.out.println("\ts -> Save routine");
+        System.out.println("\tc -> Change routine name");
         System.out.println("\ta -> Add new exercise");
         System.out.println("\tr -> Remove exercise");
         System.out.println("\tb -> Back");
@@ -111,27 +131,107 @@ public class WorkoutTracker {
     private void processModifyCommand(String command) {
         switch (command) {
             case "n":
+                newRoutine();
+                break;
+            case "l":
+                loadRoutine();
+                break;
+            case "s":
+                saveRoutine();
+                break;
+            case "c":
                 changeName();
+                break;
             case "a":
                 addNewExercise();
+                break;
             case "r":
                 removeExercise();
+                break;
             default:
                 System.out.println("\nNot a valid selection");
+                break;
+        }
+    }
+
+    private void newRoutine() {
+        System.out.print("\nRoutine Name: ");
+        String name = input.next();
+
+        routine = new Routine();
+        routine.setName(name);
+    }
+
+    private void loadRoutine() {
+        ArrayList<String> fileNames = getFiles();
+        int index = 1;
+        System.out.println("\nAvailable Routines:");
+        for (String fileName : fileNames) {
+            System.out.println(index + " -> " + fileName);
+            index++;
+        }
+        System.out.print("Choose file number to load: ");
+
+        int choice = input.nextInt() - 1;
+        String path = DEFAULT_PATH + fileNames.get(choice);
+        jsonReader.setSource(path);
+
+        try {
+            routine = jsonReader.read();
+            System.out.println("Loaded " + routine.getName() + " from " + path);
+        } catch (IOException e) {
+            System.out.println("Unable to read from file: " + path);
+        }
+    }
+
+    private ArrayList<String> getFiles() {
+        String[] fileNames;
+
+        File f = new File(DEFAULT_PATH);
+        fileNames = f.list();
+
+        return filterJson(fileNames);
+    }
+
+    private ArrayList<String> filterJson(String[] fileNames) {
+        ArrayList<String> filterFileNames = new ArrayList<>();
+        for (String fileName : fileNames) {
+            if (fileName.endsWith(".json")) {
+                filterFileNames.add(fileName);
+            }
+        }
+
+        return filterFileNames;
+    }
+
+    private void saveRoutine() {
+        String path = DEFAULT_PATH + routine.getName().replace(" ", "_") + ".json";
+        jsonWriter.setDestination(path);
+
+        try {
+            jsonWriter.open();
+            jsonWriter.write(routine);
+            jsonWriter.close();
+            System.out.println("Saved " + routine.getName() + " to " + path);
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to write to file: " + path);
         }
     }
 
     private void changeName() {
-        System.out.print("\nName: ");
+        System.out.println("\nCurrent Name: " + routine.getName());
+        System.out.print("New Name (press b to cancel): ");
         String name = input.next();
 
-        routine.setName(name);
+        if (!name.equals("b")) {
+            routine.setName(name);
+        }
     }
 
     // MODIFIES: this
     // EFFECTS: adds new exercise to exercises in routine
     private void addNewExercise() {
-        System.out.print("\nName: ");
+        System.out.print("\nExercise Name: ");
         String name = input.next();
 
         System.out.println("Select from:");
@@ -177,16 +277,14 @@ public class WorkoutTracker {
             System.out.println("\nNo exercises in routine!");
         } else {
             System.out.println("\n" + routine.viewWorkout());
-            System.out.print("Name: ");
-            String name = input.next();
-            int indexOfExercise = routine.indexOfExercise(name);
-
-            if (indexOfExercise == -1) {
-                System.out.println("Exercise does not exist");
-            } else {
-                Exercise exerciseToRemove = routine.getExercises().get(indexOfExercise);
-                routine.removeExercise(exerciseToRemove);
+            System.out.print("Exercise Number: ");
+            int index = input.nextInt() - 1;
+            try {
+                String name = routine.getExercises().get(index).getName();
+                routine.removeExercise(index);
                 System.out.println(name + " removed");
+            } catch (IndexOutOfBoundsException e) {
+                System.out.println("Exercise does not exist");
             }
         }
     }
@@ -247,14 +345,19 @@ public class WorkoutTracker {
         switch (command) {
             case "w":
                 doSetWeight();
+                break;
             case "a":
                 doAddSet();
+                break;
             case "s":
                 doSkipExercise();
+                break;
             case "v":
                 doView();
+                break;
             default:
                 System.out.println("\nNot a valid selection");
+                break;
         }
     }
 

@@ -24,3 +24,6 @@ in programming.
 - As a user, I want to know if I was able to meet my goal for sets and reps
 - As a user, I want to save a workout routine
 - As a user, I want to load a workout routine from file and use it during a session
+
+### Review w/ TA:
+- 99% code coverage (missing setter)

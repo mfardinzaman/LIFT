@@ -25,9 +25,11 @@ class RoutineTest {
 
     @BeforeEach
     void runBefore() {
-        testRoutine = new Routine("Test");
-        testRoutineA = new Routine("Test Routine A");
-        testRoutineB = new Routine("Test Routine B");
+        testRoutine = new Routine();
+        testRoutineA = new Routine();
+        testRoutineA.setName("Test Routine A");
+        testRoutineB = new Routine();
+        testRoutineB.setName("Test Routine B");
 
         bentOverBarbellRow = new Exercise("Bent Over Barbell Row", Equipment.Barbell);
         barbellBenchPress = new Exercise("Barbell Bench Press", Equipment.Barbell);
@@ -92,7 +94,7 @@ class RoutineTest {
         ArrayList<Exercise> exercises = testRoutine.getExercises();
         assertEquals(1, exercises.size());
 
-        testRoutine.removeExercise(bicepCurl);
+        testRoutine.removeExercise(0);
         assertEquals(0, exercises.size());
     }
 
@@ -101,39 +103,39 @@ class RoutineTest {
         ArrayList<Exercise> exercises = testRoutineB.getExercises();
         assertEquals(5, exercises.size());
 
-        testRoutineB.removeExercise(overheadBarbellPress);
+        testRoutineB.removeExercise(2);
         assertEquals(4, exercises.size());
     }
 
-    @Test
-    void indexOfExerciseFirst() {
-        int indexOfFound = testRoutineA.indexOfExercise("Bent Over Barbell Row");
-        assertEquals(0, indexOfFound);
-    }
-
-    @Test
-    void indexOfExerciseMiddle() {
-        int indexOfFound = testRoutineB.indexOfExercise("Overhead Barbell Press");
-        assertEquals(2, indexOfFound);
-    }
-
-    @Test
-    void indexOfExerciseLastRoutineA() {
-        int indexOfFound = testRoutineA.indexOfExercise("Bicep Curl");
-        assertEquals(3, indexOfFound);
-    }
-
-    @Test
-    void indexOfExerciseLastRoutineB() {
-        int indexOfFound = testRoutineB.indexOfExercise("Tricep Extension");
-        assertEquals(4, indexOfFound);
-    }
-
-    @Test
-    void indexOfExerciseNotFound() {
-        int indexOfFound = testRoutineA.indexOfExercise("Tricep Extension");
-        assertEquals(-1, indexOfFound);
-    }
+//    @Test
+//    void indexOfExerciseFirst() {
+//        int indexOfFound = testRoutineA.indexOfExercise("Bent Over Barbell Row");
+//        assertEquals(0, indexOfFound);
+//    }
+//
+//    @Test
+//    void indexOfExerciseMiddle() {
+//        int indexOfFound = testRoutineB.indexOfExercise("Overhead Barbell Press");
+//        assertEquals(2, indexOfFound);
+//    }
+//
+//    @Test
+//    void indexOfExerciseLastRoutineA() {
+//        int indexOfFound = testRoutineA.indexOfExercise("Bicep Curl");
+//        assertEquals(3, indexOfFound);
+//    }
+//
+//    @Test
+//    void indexOfExerciseLastRoutineB() {
+//        int indexOfFound = testRoutineB.indexOfExercise("Tricep Extension");
+//        assertEquals(4, indexOfFound);
+//    }
+//
+//    @Test
+//    void indexOfExerciseNotFound() {
+//        int indexOfFound = testRoutineA.indexOfExercise("Tricep Extension");
+//        assertEquals(-1, indexOfFound);
+//    }
 
     @Test
     void beginSessionRoutineA() {
@@ -388,10 +390,10 @@ class RoutineTest {
     @Test
     void viewWorkoutRoutineANotStarted() {
         assertEquals("Test Routine A\n"
-                + "Bent Over Barbell Row\t 3\t 5\t 0\t 0\n"
-                + "Barbell Bench Press\t 3\t 5\t 0\t 0\n"
-                + "Barbell Squat\t 3\t 5\t 0\t 0\n"
-                + "Bicep Curl\t 5\t 10\t 0\t 0\n"
+                + "1 Bent Over Barbell Row\t 3\t 5\t 0\t 0\n"
+                + "2 Barbell Bench Press\t 3\t 5\t 0\t 0\n"
+                + "3 Barbell Squat\t 3\t 5\t 0\t 0\n"
+                + "4 Bicep Curl\t 5\t 10\t 0\t 0\n"
                 + "Met Goal: No",testRoutineA.viewWorkout());
     }
 
@@ -400,10 +402,10 @@ class RoutineTest {
         testRoutineA.beginSession();
 
         assertEquals("Test Routine A\n"
-                + "* Bent Over Barbell Row\t 3\t 5\t 0\t 0\n"
-                + "Barbell Bench Press\t 3\t 5\t 0\t 0\n"
-                + "Barbell Squat\t 3\t 5\t 0\t 0\n"
-                + "Bicep Curl\t 5\t 10\t 0\t 0\n"
+                + "* 1 Bent Over Barbell Row\t 3\t 5\t 0\t 0\n"
+                + "2 Barbell Bench Press\t 3\t 5\t 0\t 0\n"
+                + "3 Barbell Squat\t 3\t 5\t 0\t 0\n"
+                + "4 Bicep Curl\t 5\t 10\t 0\t 0\n"
                 + "Met Goal: No",testRoutineA.viewWorkout());
     }
 
@@ -419,10 +421,10 @@ class RoutineTest {
         }
 
         assertEquals("Test Routine A\n"
-                + "Bent Over Barbell Row\t 3\t 5\t 95\t 3\n"
-                + "Barbell Bench Press\t 3\t 5\t 145\t 3\n"
-                + "Barbell Squat\t 3\t 5\t 195\t 3\n"
-                + "* Bicep Curl\t 5\t 10\t 0\t 0\n"
+                + "1 Bent Over Barbell Row\t 3\t 5\t 95\t 3\n"
+                + "2 Barbell Bench Press\t 3\t 5\t 145\t 3\n"
+                + "3 Barbell Squat\t 3\t 5\t 195\t 3\n"
+                + "* 4 Bicep Curl\t 5\t 10\t 0\t 0\n"
                 + "Met Goal: No",testRoutineA.viewWorkout());
     }
 
@@ -439,11 +441,11 @@ class RoutineTest {
         testRoutineB.addSetToProgress();
 
         assertEquals("Test Routine B\n"
-                + "Pullup\t 3\t 5\t 0\t 3\n"
-                + "Deadlift\t 1\t 5\t 135\t 1\n"
-                + "* Overhead Barbell Press\t 3\t 5\t 45\t 1\n"
-                + "Incline Dumbbell Press\t 5\t 10\t 0\t 0\n"
-                + "Tricep Extension\t 5\t 10\t 0\t 0\n"
+                + "1 Pullup\t 3\t 5\t 0\t 3\n"
+                + "2 Deadlift\t 1\t 5\t 135\t 1\n"
+                + "* 3 Overhead Barbell Press\t 3\t 5\t 45\t 1\n"
+                + "4 Incline Dumbbell Press\t 5\t 10\t 0\t 0\n"
+                + "5 Tricep Extension\t 5\t 10\t 0\t 0\n"
                 + "Met Goal: No",testRoutineB.viewWorkout());
     }
 
@@ -470,11 +472,11 @@ class RoutineTest {
         }
 
         assertEquals("Test Routine B\n"
-                + "Pullup\t 3\t 5\t 0\t 3\n" +
-                "Deadlift\t 1\t 5\t 135\t 1\n" +
-                "Overhead Barbell Press\t 3\t 5\t 45\t 3\n" +
-                "Incline Dumbbell Press\t 5\t 10\t 25\t 5\n" +
-                "Tricep Extension\t 5\t 10\t 15\t 5\n" +
-                "Met Goal: Yes",testRoutineB.viewWorkout());
+                + "1 Pullup\t 3\t 5\t 0\t 3\n"
+                + "2 Deadlift\t 1\t 5\t 135\t 1\n"
+                + "3 Overhead Barbell Press\t 3\t 5\t 45\t 3\n"
+                + "4 Incline Dumbbell Press\t 5\t 10\t 25\t 5\n"
+                + "5 Tricep Extension\t 5\t 10\t 15\t 5\n"
+                + "Met Goal: Yes",testRoutineB.viewWorkout());
     }
 }
