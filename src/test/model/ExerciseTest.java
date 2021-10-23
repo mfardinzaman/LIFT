@@ -37,7 +37,15 @@ public class ExerciseTest {
 
     @Test
     void viewExerciseRow() {
-        assertEquals("Bent Over Barbell Row\t 0\t 0\t 0\t 0", bentOverBarbellRow.viewExercise());
+        String expected = "|   | 0 |"
+                + String.format("%-25s|%-4s|%-4s|%-5s|%-3s|",
+                " Bent Over Barbell Row",
+                " 0",
+                " 0",
+                " 0",
+                " 0");
+
+        assertEquals(expected, bentOverBarbellRow.viewExercise());
     }
 
     @Test
@@ -45,6 +53,15 @@ public class ExerciseTest {
         barbellBenchPress.setSets(3);
         barbellBenchPress.setReps(5);
         barbellBenchPress.setWeight(95);
-        assertEquals("Barbell Bench Press\t 3\t 5\t 95\t 0", barbellBenchPress.viewExercise());
+
+        String expected = "|   | 0 |"
+                + String.format("%-25s|%-4s|%-4s|%-5s|%-3s|",
+                " Barbell Bench Press",
+                " 3",
+                " 5",
+                " 95",
+                " 0");
+
+        assertEquals(expected, barbellBenchPress.viewExercise());
     }
 }

@@ -30,13 +30,24 @@ public class Exercise implements Writeable {
         return sets == setsCompleted; // stub
     }
 
+//    // EFFECTS: returns a string representation of the exercise.
+//    public String viewExercise() {
+//        return this.name + "\t "
+//                + this.sets + "\t "
+//                + this.reps + "\t "
+//                + this.weight + "\t "
+//                + this.setsCompleted;
+//    }
+
     // EFFECTS: returns a string representation of the exercise.
     public String viewExercise() {
-        return this.name + "\t "
-                + this.sets + "\t "
-                + this.reps + "\t "
-                + this.weight + "\t "
-                + this.setsCompleted;
+        return "|   | 0 |"
+                + String.format("%-25s|%-4s|%-4s|%-5s|%-3s|",
+                " " + name,
+                " " + sets,
+                " " + reps,
+                " " + weight,
+                " " + setsCompleted);
     }
 
     // EFFECTS: returns the name of the exercise

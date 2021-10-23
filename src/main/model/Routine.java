@@ -123,14 +123,16 @@ public class Routine implements Writeable {
     // EFFECTS: returns a string representation of the workout
     public String viewWorkout() {
         StringBuilder view = new StringBuilder();
-        view.append(getName() + "\n");
+        view.append(generateHeader());
 
         int num = 1;
         for (Exercise e : exercises) {
+            StringBuilder exercise = new StringBuilder(e.viewExercise());
+            exercise.replace(6,7,String.valueOf(num));
             if (e == current) {
-                view.append("* ");
+                exercise.replace(2,3, "*");
             }
-            view.append(num + " " + e.viewExercise() + "\n");
+            view.append(exercise + "\n");
             num++;
         }
 
@@ -142,6 +144,20 @@ public class Routine implements Writeable {
         }
 
         return view.toString();
+    }
+
+    // EFFECTS: generates header for Routine table
+    private String generateHeader() {
+
+        return getName() + "\n"
+                + "|Cur|Num|"
+                + String.format("%-25s|%-4s|%-4s|%-5s|%-3s|",
+                " Name",
+                "Sets",
+                "Reps",
+                " Wgt ",
+                "Prg") + "\n"
+                + new String(new char[55]).replace("\0", "=") + "\n";
     }
 
     public String getName() {
