@@ -9,7 +9,6 @@ import persistence.JsonWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -123,6 +122,7 @@ public class WorkoutTracker {
         System.out.println("\tl -> Load routine");
         System.out.println("\ts -> Save routine");
         System.out.println("\tc -> Change routine name");
+        System.out.println("\tv -> View routine");
         System.out.println("\ta -> Add new exercise");
         System.out.println("\tr -> Remove exercise");
         System.out.println("\tb -> Back");
@@ -130,6 +130,7 @@ public class WorkoutTracker {
     }
 
     // EFFECTS: process user command in the modify menu
+    @SuppressWarnings({"checkstyle:MethodLength", "checkstyle:SuppressWarnings"})
     private void processModifyCommand(String command) {
         switch (command) {
             case "n":
@@ -143,6 +144,9 @@ public class WorkoutTracker {
                 break;
             case "c":
                 changeName();
+                break;
+            case "v":
+                doView();
                 break;
             case "a":
                 addNewExercise();
@@ -346,7 +350,6 @@ public class WorkoutTracker {
         System.out.println("\tw -> Set weight of exercise");
         System.out.println("\ta -> Add set");
         System.out.println("\ts -> Skip exercise");
-        System.out.println("\tv -> View routine");
         System.out.println("\tb -> Back");
         System.out.print("Make your selection: ");
     }
@@ -362,9 +365,6 @@ public class WorkoutTracker {
                 break;
             case "s":
                 doSkipExercise();
-                break;
-            case "v":
-                doView();
                 break;
             default:
                 System.out.println("\nNot a valid selection");

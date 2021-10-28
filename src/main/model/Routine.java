@@ -136,6 +136,7 @@ public class Routine implements Writeable {
             num++;
         }
 
+        view.append(new String(new char[55]).replace("\0", "=") + "\n");
         view.append("Met Goal: ");
         if (hasMetAllGoals()) {
             view.append("Yes");

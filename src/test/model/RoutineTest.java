@@ -360,13 +360,15 @@ class RoutineTest {
     @Test
     void viewWorkoutRoutineANotStarted() {
         assertEquals("Test Routine A\n"
-                + "|Cur|Num| Name                    |Sets|Reps| Wgt |Prg|\n"
-                + "=======================================================\n"
-                + "|   | 1 | Bent Over Barbell Row   | 3  | 5  | 0   | 0 |\n"
-                + "|   | 2 | Barbell Bench Press     | 3  | 5  | 0   | 0 |\n"
-                + "|   | 3 | Barbell Squat           | 3  | 5  | 0   | 0 |\n"
-                + "|   | 4 | Bicep Curl              | 5  | 10 | 0   | 0 |\n"
-                + "Met Goal: No",testRoutineA.viewWorkout());
+                        + "|Cur|Num| Name                    |Sets|Reps| Wgt |Prg|\n"
+                        + "=======================================================\n"
+                        + "|   | 1 | Bent Over Barbell Row   | 3  | 5  | 0   | 0 |\n"
+                        + "|   | 2 | Barbell Bench Press     | 3  | 5  | 0   | 0 |\n"
+                        + "|   | 3 | Barbell Squat           | 3  | 5  | 0   | 0 |\n"
+                        + "|   | 4 | Bicep Curl              | 5  | 10 | 0   | 0 |\n"
+                        + "=======================================================\n"
+                        + "Met Goal: No",
+                testRoutineA.viewWorkout());
     }
 
     @Test
@@ -374,13 +376,15 @@ class RoutineTest {
         testRoutineA.beginSession();
 
         assertEquals("Test Routine A\n"
-                + "|Cur|Num| Name                    |Sets|Reps| Wgt |Prg|\n"
-                + "=======================================================\n"
-                + "| * | 1 | Bent Over Barbell Row   | 3  | 5  | 0   | 0 |\n"
-                + "|   | 2 | Barbell Bench Press     | 3  | 5  | 0   | 0 |\n"
-                + "|   | 3 | Barbell Squat           | 3  | 5  | 0   | 0 |\n"
-                + "|   | 4 | Bicep Curl              | 5  | 10 | 0   | 0 |\n"
-                + "Met Goal: No",testRoutineA.viewWorkout());
+                        + "|Cur|Num| Name                    |Sets|Reps| Wgt |Prg|\n"
+                        + "=======================================================\n"
+                        + "| * | 1 | Bent Over Barbell Row   | 3  | 5  | 0   | 0 |\n"
+                        + "|   | 2 | Barbell Bench Press     | 3  | 5  | 0   | 0 |\n"
+                        + "|   | 3 | Barbell Squat           | 3  | 5  | 0   | 0 |\n"
+                        + "|   | 4 | Bicep Curl              | 5  | 10 | 0   | 0 |\n"
+                        + "=======================================================\n"
+                        + "Met Goal: No",
+                testRoutineA.viewWorkout());
     }
 
     @Test
@@ -395,13 +399,15 @@ class RoutineTest {
         }
 
         assertEquals("Test Routine A\n"
-                + "|Cur|Num| Name                    |Sets|Reps| Wgt |Prg|\n"
-                + "=======================================================\n"
-                + "|   | 1 | Bent Over Barbell Row   | 3  | 5  | 95  | 3 |\n"
-                + "|   | 2 | Barbell Bench Press     | 3  | 5  | 145 | 3 |\n"
-                + "|   | 3 | Barbell Squat           | 3  | 5  | 195 | 3 |\n"
-                + "| * | 4 | Bicep Curl              | 5  | 10 | 0   | 0 |\n"
-                + "Met Goal: No",testRoutineA.viewWorkout());
+                        + "|Cur|Num| Name                    |Sets|Reps| Wgt |Prg|\n"
+                        + "=======================================================\n"
+                        + "|   | 1 | Bent Over Barbell Row   | 3  | 5  | 95  | 3 |\n"
+                        + "|   | 2 | Barbell Bench Press     | 3  | 5  | 145 | 3 |\n"
+                        + "|   | 3 | Barbell Squat           | 3  | 5  | 195 | 3 |\n"
+                        + "| * | 4 | Bicep Curl              | 5  | 10 | 0   | 0 |\n"
+                        + "=======================================================\n"
+                        + "Met Goal: No",
+                testRoutineA.viewWorkout());
     }
 
     @Test
@@ -417,14 +423,16 @@ class RoutineTest {
         testRoutineB.addSetToProgress();
 
         assertEquals("Test Routine B\n"
-                + "|Cur|Num| Name                    |Sets|Reps| Wgt |Prg|\n"
-                + "=======================================================\n"
-                + "|   | 1 | Pullup                  | 3  | 5  | 0   | 3 |\n"
-                + "|   | 2 | Deadlift                | 1  | 5  | 135 | 1 |\n"
-                + "| * | 3 | Overhead Barbell Press  | 3  | 5  | 45  | 1 |\n"
-                + "|   | 4 | Incline Dumbbell Press  | 5  | 10 | 0   | 0 |\n"
-                + "|   | 5 | Tricep Extension        | 5  | 10 | 0   | 0 |\n"
-                + "Met Goal: No",testRoutineB.viewWorkout());
+                        + "|Cur|Num| Name                    |Sets|Reps| Wgt |Prg|\n"
+                        + "=======================================================\n"
+                        + "|   | 1 | Pullup                  | 3  | 5  | 0   | 3 |\n"
+                        + "|   | 2 | Deadlift                | 1  | 5  | 135 | 1 |\n"
+                        + "| * | 3 | Overhead Barbell Press  | 3  | 5  | 45  | 1 |\n"
+                        + "|   | 4 | Incline Dumbbell Press  | 5  | 10 | 0   | 0 |\n"
+                        + "|   | 5 | Tricep Extension        | 5  | 10 | 0   | 0 |\n"
+                        + "=======================================================\n"
+                        + "Met Goal: No",
+                testRoutineB.viewWorkout());
     }
 
     @Test
@@ -450,13 +458,15 @@ class RoutineTest {
         }
 
         assertEquals("Test Routine B\n"
-                + "|Cur|Num| Name                    |Sets|Reps| Wgt |Prg|\n"
-                + "=======================================================\n"
-                + "|   | 1 | Pullup                  | 3  | 5  | 0   | 3 |\n"
-                + "|   | 2 | Deadlift                | 1  | 5  | 135 | 1 |\n"
-                + "|   | 3 | Overhead Barbell Press  | 3  | 5  | 45  | 3 |\n"
-                + "|   | 4 | Incline Dumbbell Press  | 5  | 10 | 25  | 5 |\n"
-                + "|   | 5 | Tricep Extension        | 5  | 10 | 15  | 5 |\n"
-                + "Met Goal: Yes",testRoutineB.viewWorkout());
+                        + "|Cur|Num| Name                    |Sets|Reps| Wgt |Prg|\n"
+                        + "=======================================================\n"
+                        + "|   | 1 | Pullup                  | 3  | 5  | 0   | 3 |\n"
+                        + "|   | 2 | Deadlift                | 1  | 5  | 135 | 1 |\n"
+                        + "|   | 3 | Overhead Barbell Press  | 3  | 5  | 45  | 3 |\n"
+                        + "|   | 4 | Incline Dumbbell Press  | 5  | 10 | 25  | 5 |\n"
+                        + "|   | 5 | Tricep Extension        | 5  | 10 | 15  | 5 |\n"
+                        + "=======================================================\n"
+                        + "Met Goal: Yes",
+                testRoutineB.viewWorkout());
     }
 }
