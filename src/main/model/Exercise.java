@@ -55,6 +55,11 @@ public class Exercise implements Writeable {
         return name;
     }
 
+    // EFFECTS: sets the name of the exercise
+    public void setName(String name) {
+        this.name = name;
+    }
+
     // EFFECTS: returns the number of sets for the exercise
     public int getSets() {
         return sets;
@@ -96,6 +101,11 @@ public class Exercise implements Writeable {
         return equipment;
     }
 
+    // EFFECTS: sets equipment type
+    public void setEquipment(Equipment equipment) {
+        this.equipment = equipment;
+    }
+
     // EFFECTS: returns number of sets completed
     public int getSetsCompleted() {
         return setsCompleted;
@@ -118,5 +128,19 @@ public class Exercise implements Writeable {
         json.put("equipment", equipment);
 
         return json;
+    }
+
+    public String[] toStringArray() {
+        String[] exercise = {
+                name,
+                String.valueOf(equipment),
+                String.valueOf(sets),
+                String.valueOf(reps),
+                String.valueOf(weight),
+                String.valueOf(setsCompleted)
+        };
+
+
+        return exercise;
     }
 }

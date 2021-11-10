@@ -31,16 +31,16 @@ class RoutineTest {
         testRoutineB = new Routine();
         testRoutineB.setName("Test Routine B");
 
-        bentOverBarbellRow = new Exercise("Bent Over Barbell Row", Equipment.Barbell);
-        barbellBenchPress = new Exercise("Barbell Bench Press", Equipment.Barbell);
-        barbellSquat = new Exercise("Barbell Squat", Equipment.Barbell);
-        bicepCurl = new Exercise("Bicep Curl", Equipment.Dumbbell);
+        bentOverBarbellRow = new Exercise("Bent Over Barbell Row", Equipment.BARBELL);
+        barbellBenchPress = new Exercise("Barbell Bench Press", Equipment.BARBELL);
+        barbellSquat = new Exercise("Barbell Squat", Equipment.BARBELL);
+        bicepCurl = new Exercise("Bicep Curl", Equipment.DUMBBELL);
 
-        pullup = new Exercise("Pullup", Equipment.None);
-        deadlift = new Exercise("Deadlift", Equipment.Barbell);
-        overheadBarbellPress = new Exercise("Overhead Barbell Press", Equipment.Barbell);
-        inclineDumbbellPress = new Exercise("Incline Dumbbell Press", Equipment.Dumbbell);
-        tricepExtension = new Exercise("Tricep Extension", Equipment.Machine);
+        pullup = new Exercise("Pullup", Equipment.NONE);
+        deadlift = new Exercise("Deadlift", Equipment.BARBELL);
+        overheadBarbellPress = new Exercise("Overhead Barbell Press", Equipment.BARBELL);
+        inclineDumbbellPress = new Exercise("Incline Dumbbell Press", Equipment.DUMBBELL);
+        tricepExtension = new Exercise("Tricep Extension", Equipment.MACHINE);
 
         testRoutineA.addExercise(bentOverBarbellRow, 3, 5);
         testRoutineA.addExercise(barbellBenchPress, 3, 5);

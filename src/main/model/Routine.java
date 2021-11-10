@@ -68,7 +68,7 @@ public class Routine implements Writeable {
     //          - if equipment is barbell -> calculates total weight based on input plate and bar
     //          - if machine or dumbbell -> sets weight normally
     public void addWeightToCurrent(int weight) {
-        if (current.getEquipment() == Equipment.Barbell) {
+        if (current.getEquipment() == Equipment.BARBELL) {
             int total = 2 * weight + WEIGHT_OF_BAR;
             current.setWeight(total);
         } else {
@@ -148,8 +148,7 @@ public class Routine implements Writeable {
     }
 
     // EFFECTS: generates header for Routine table
-    private String generateHeader() {
-
+    public String generateHeader() {
         return getName() + "\n"
                 + "|Cur|Num|"
                 + String.format("%-25s|%-4s|%-4s|%-5s|%-3s|",

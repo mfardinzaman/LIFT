@@ -1,8 +1,8 @@
 package model;
 
 public enum Equipment {
-    Barbell,
-    Dumbbell,
-    Machine,
-    None
+    BARBELL,
+    DUMBBELL,
+    MACHINE,
+    NONE
 }

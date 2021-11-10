@@ -48,10 +48,10 @@ public class JsonReaderTest extends JsonTest{
             ArrayList<Exercise> exercises = r.getExercises();
             assertEquals(4, exercises.size());
 
-            checkExercise("Bent Over Barbell Row", 3, 5, Equipment.Barbell, exercises.get(0));
-            checkExercise("Barbell Bench Press", 3, 5, Equipment.Barbell, exercises.get(1));
-            checkExercise("Barbell Squat", 3, 5, Equipment.Barbell, exercises.get(2));
-            checkExercise("Bicep Curl", 5, 10, Equipment.Dumbbell, exercises.get(3));
+            checkExercise("Bent Over Barbell Row", 3, 5, Equipment.BARBELL, exercises.get(0));
+            checkExercise("Barbell Bench Press", 3, 5, Equipment.BARBELL, exercises.get(1));
+            checkExercise("Barbell Squat", 3, 5, Equipment.BARBELL, exercises.get(2));
+            checkExercise("Bicep Curl", 5, 10, Equipment.DUMBBELL, exercises.get(3));
         } catch (IOException e) {
             fail("Couldn't read from file");
         }
@@ -68,11 +68,11 @@ public class JsonReaderTest extends JsonTest{
             ArrayList<Exercise> exercises = r.getExercises();
             assertEquals(5, exercises.size());
 
-            checkExercise("Pullup", 3, 5, Equipment.None, exercises.get(0));
-            checkExercise("Deadlift", 1, 5, Equipment.Barbell, exercises.get(1));
-            checkExercise("Overhead Barbell Press", 3, 5, Equipment.Barbell, exercises.get(2));
-            checkExercise("Incline Dumbbell Press", 5, 10, Equipment.Dumbbell, exercises.get(3));
-            checkExercise("Tricep Extension", 5, 10, Equipment.Machine, exercises.get(4));
+            checkExercise("Pullup", 3, 5, Equipment.NONE, exercises.get(0));
+            checkExercise("Deadlift", 1, 5, Equipment.BARBELL, exercises.get(1));
+            checkExercise("Overhead Barbell Press", 3, 5, Equipment.BARBELL, exercises.get(2));
+            checkExercise("Incline Dumbbell Press", 5, 10, Equipment.DUMBBELL, exercises.get(3));
+            checkExercise("Tricep Extension", 5, 10, Equipment.MACHINE, exercises.get(4));
         } catch (IOException e) {
             fail("Couldn't read from file");
         }
