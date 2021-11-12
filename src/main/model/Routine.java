@@ -6,9 +6,10 @@ import persistence.Writeable;
 
 import java.util.ArrayList;
 
-/* A workout routine with its associated workout list, whether the user is currently in session, the current exercise
-   being done, and the current sets progress.
- */
+/**
+ * A workout routine with its associated workout list, whether the user is currently in session, the current exercise
+ * being done, and the current sets progress.
+  */
 public class Routine implements Writeable {
     private String name;
     private ArrayList<Exercise> exercises;
@@ -18,8 +19,10 @@ public class Routine implements Writeable {
 
     private static final int WEIGHT_OF_BAR = 45;
 
-    // EFFECTS: initializes a workout routine that is not in session with empty exercise list,
-    //          no currently selected exercise, and progress set to 0
+    /*
+    EFFECTS: initializes a workout routine that is not in session with empty exercise list, no currently selected
+             exercise, and progress set to 0
+     */
     public Routine() {
         this.name = "Default Routine";
         exercises = new ArrayList<>();
@@ -28,9 +31,11 @@ public class Routine implements Writeable {
         progress = 0;
     }
 
-    // REQUIRES: Exercise should not be in the current routine.
-    // MODIFIES: this
-    // EFFECTS: adds an exercise to the exercise list with indicated sets and reps
+    /*
+    REQUIRES: Exercise should not be in the current routine.
+    MODIFIES: this
+    EFFECTS: adds an exercise to the exercise list with indicated sets and reps
+     */
     public void addExercise(Exercise e, int sets, int reps) {
         e.setSets(sets);
         e.setReps(reps);
@@ -38,35 +43,43 @@ public class Routine implements Writeable {
         exercises.add(e);
     }
 
-    // REQUIRES: Exercise must be in the list
-    // MODIFIES: this
-    // EFFECTS: removes exercise from exercise list
+    /*
+    REQUIRES: Exercise must be in the list
+    MODIFIES: this
+    EFFECTS: removes exercise from exercise list
+     */
     public void removeExercise(int index) {
         exercises.remove(index);
     }
 
-    // REQUIRES: must not be in session
-    // MODIFIES: this
-    // EFFECTS: begins a session by setting inSession to true and first exercise as current
+    /*
+    REQUIRES: must not be in session
+    MODIFIES: this
+    EFFECTS: begins a session by setting inSession to true and first exercise as current
+     */
     public void beginSession() {
         inSession = true;
         current = exercises.get(0);
     }
 
-    // REQUIRES: must be in session
-    // MODIFIES: this
-    // EFFECTS: ends a session by setting inSession to false, current as null, and progress as 0
+    /*
+    REQUIRES: must be in session
+    MODIFIES: this
+    EFFECTS: ends a session by setting inSession to false, current as null, and progress as 0
+     */
     public void endSession() {
         inSession = false;
         current = null;
         progress = 0;
     }
 
-    // REQUIRES: weight is non-zero positive integer and must be in session
-    // MODIFIES: this
-    // EFFECTS: adds weight based on type of equipment:
-    //          - if equipment is barbell -> calculates total weight based on input plate and bar
-    //          - if machine or dumbbell -> sets weight normally
+    /*
+    REQUIRES: weight is non-zero positive integer and must be in session
+    MODIFIES: this
+    EFFECTS: adds weight based on type of equipment:
+             - if equipment is barbell -> calculates total weight based on input plate and bar
+             - if machine or dumbbell -> sets weight normally
+     */
     public void addWeightToCurrent(int weight) {
         if (current.getEquipment() == Equipment.BARBELL) {
             int total = 2 * weight + WEIGHT_OF_BAR;
@@ -76,11 +89,13 @@ public class Routine implements Writeable {
         }
     }
 
-    // REQUIRES: must be in session
-    // MODIFIES: this
-    // EFFECTS: adds 1 to current number of sets
-    //          - if The goal sets are met, move on to the next exercise in routine
-     //         - if final set of workout, sets inSession to false and removes current
+    /*
+    REQUIRES: must be in session
+    MODIFIES: this
+    EFFECTS: adds 1 to current number of sets
+             - if The goal sets are met, move on to the next exercise in routine
+             - if final set of workout, sets inSession to false and removes current
+     */
     public void addSetToProgress() {
         if (progress == current.getSets() - 1) {
             current.setSetsCompleted(progress + 1);
@@ -97,8 +112,10 @@ public class Routine implements Writeable {
         }
     }
 
-    // MODIFIES: this
-    // EFFECTS: moves on to the next exercise in routine or completes workout if none left
+    /*
+    MODIFIES: this
+    EFFECTS: moves on to the next exercise in routine or completes workout if none left
+     */
     public void skipExercise() {
         progress = 0;
         if (exercises.indexOf(current) == exercises.size() - 1) {
@@ -109,7 +126,9 @@ public class Routine implements Writeable {
         }
     }
 
-    // EFFECTS: returns true if all the goal sets and reps have been met, false otherwise
+    /*
+    EFFECTS: returns true if all the goal sets and reps have been met, false otherwise
+     */
     public boolean hasMetAllGoals() {
         for (Exercise e : exercises) {
             if (!e.hasMetGoal()) {
@@ -119,8 +138,10 @@ public class Routine implements Writeable {
         return true;
     }
 
-    // REQUIRES: this.exercises must be not empty
-    // EFFECTS: returns a string representation of the workout
+    /*
+    REQUIRES: this.exercises must be not empty
+    EFFECTS: returns a string representation of the workout
+     */
     public String viewWorkout() {
         StringBuilder view = new StringBuilder();
         view.append(generateHeader());
@@ -147,7 +168,9 @@ public class Routine implements Writeable {
         return view.toString();
     }
 
-    // EFFECTS: generates header for Routine table
+    /*
+    EFFECTS: generates header for Routine table
+     */
     public String generateHeader() {
         return getName() + "\n"
                 + "|Cur|Num|"
@@ -185,7 +208,9 @@ public class Routine implements Writeable {
     }
 
     @Override
-    // EFFECTS: returns this as a JSON object
+    /*
+    EFFECTS: returns this as a JSON object
+     */
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
         json.put("name", name);
@@ -194,7 +219,9 @@ public class Routine implements Writeable {
         return json;
     }
 
-    // EFFECTS: returns exercises in this routine as a JSON array
+    /*
+    EFFECTS: returns exercises in this routine as a JSON array
+     */
     private JSONArray exercisesToJson() {
         JSONArray jsonArray = new JSONArray();
 

@@ -12,25 +12,32 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.stream.Stream;
 
-/* Represents a reader that reads routine from JSON data stored in file
-   Inspired by JsonSerializationDemo
+/**
+ * Represents a reader that reads routine from JSON data stored in file
+ * Inspired by JsonSerializationDemo
  */
 public class JsonReader {
     private String source;
 
-    // EFFECTS: constructs reader to read from source file
+    /*
+    EFFECTS: constructs reader to read from source file
+     */
     public JsonReader() {
     }
 
-    // EFFECTS: reads Routine from file and returns it;
-    // throws IOException if an error occurs reading data from file
+    /*
+    EFFECTS: reads Routine from file and returns it
+             throws IOException if an error occurs reading data from file
+     */
     public Routine read() throws IOException {
         String jsonData = readFile(source);
         JSONObject jsonObject = new JSONObject(jsonData);
         return parseRoutine(jsonObject);
     }
 
-    // EFFECTS: reads source file as string and returns it
+    /*
+    EFFECTS: reads source file as string and returns it
+     */
     private String readFile(String source) throws IOException {
         StringBuilder contentBuilder = new StringBuilder();
 
@@ -41,7 +48,9 @@ public class JsonReader {
         return contentBuilder.toString();
     }
 
-    // EFFECTS: parses routine from JSON object and returns it
+    /*
+    EFFECTS: parses routine from JSON object and returns it
+     */
     private Routine parseRoutine(JSONObject jsonObject) {
         String name = jsonObject.getString("name");
         Routine r = new Routine();
@@ -50,8 +59,10 @@ public class JsonReader {
         return r;
     }
 
-    // MODIFIES: r
-    // EFFECTS: parses thingies from JSON object and adds them to routine
+    /*
+    MODIFIES: r
+    EFFECTS: parses thingies from JSON object and adds them to routine
+     */
     private void addExercises(Routine r, JSONObject jsonObject) {
         JSONArray jsonArray = jsonObject.getJSONArray("exercises");
         for (Object json : jsonArray) {
@@ -60,8 +71,10 @@ public class JsonReader {
         }
     }
 
-    // MODIFIES: r
-    // EFFECTS: parses thingy from JSON object and adds it to routine
+    /*
+    MODIFIES: r
+    EFFECTS: parses thingy from JSON object and adds it to routine
+     */
     private void addExercise(Routine r, JSONObject jsonObject) {
         String name = jsonObject.getString("name");
         Equipment equipment = Equipment.valueOf(jsonObject.getString("equipment"));

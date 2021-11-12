@@ -1,5 +1,6 @@
 package ui;
 
+import com.sun.jmx.remote.internal.RMIExporter;
 import model.Equipment;
 import model.Exercise;
 import model.Routine;
@@ -7,10 +8,16 @@ import model.Routine;
 import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
 
+/**
+ * Custom TableModel for Routine viewer
+ * Inspired by: https://www.codejava.net/java-se/swing/how-to-create-jcombobox-cell-editor-for-jtable
+ *              https://docs.oracle.com/javase/tutorial/uiswing/examples/components/TableDemoProject/src/components/TableDemo.java
+  */
 public class RoutineTable extends AbstractTableModel {
     private String[] columnNames;
     private ArrayList<Exercise> exercises;
 
+    // EFFECTS: sets column headers and exercises to use in table
     public RoutineTable(Routine routine) {
         super();
         this.columnNames = new String[] {
@@ -24,20 +31,38 @@ public class RoutineTable extends AbstractTableModel {
         this.exercises = routine.getExercises();
     }
 
+    /*
+    EFFECTS: returns number of rows
+     */
     @Override
     public int getRowCount() {
         return exercises.size();
     }
 
+    /*
+    EFFECTS: returns number of columns
+     */
     @Override
     public int getColumnCount() {
         return columnNames.length;
     }
 
+    /*
+    REQUIRES: col in [0, columnNames.length)
+    EFFECTS: returns name of column header
+     */
+    @Override
     public String getColumnName(int col) {
         return columnNames[col];
     }
 
+    /*
+    REQUIRES: value of type String, Equipment, or int
+              row in [0, exercises.size())
+              col in [0, columnNames.length)
+    MODIFIES: this
+    EFFECTS: sets value at specified cell (row, col)
+     */
     @Override
     public void setValueAt(Object value, int row, int col) {
         Exercise exercise = exercises.get(row);
@@ -66,6 +91,11 @@ public class RoutineTable extends AbstractTableModel {
         fireTableCellUpdated(row, col);
     }
 
+    /*
+    REQUIRES: row in [0, exercises.size())
+              col in [0, columnNames.length)
+    EFFECTS: returns value at indicated cell
+     */
     @Override
     public Object getValueAt(int row, int col) {
         Object returnValue = null;
@@ -95,13 +125,22 @@ public class RoutineTable extends AbstractTableModel {
         return returnValue;
     }
 
+    /*
+    REQUIRES: column in [0, columnNames.length)
+    EFFECTS: returns Class of indicated column
+     */
     @Override
     public Class getColumnClass(int column) {
         return getValueAt(0, column).getClass();
     }
 
+    /*
+    REQUIRES: row in [0, exercises.size())
+              col in [0, columnNames.length)
+    EFFECTS: sets progress and weight columns to uneditable
+     */
     @Override
     public boolean isCellEditable(int row, int col) {
-        return col < 5;
+        return col < 4;
     }
 }

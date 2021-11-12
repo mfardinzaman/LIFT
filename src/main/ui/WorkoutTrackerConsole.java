@@ -12,8 +12,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-/* Workout tracker application
-   Inspired by TellerApp
+/**
+ * Workout tracker application
+ * Inspired by TellerApp
  */
 public class WorkoutTrackerConsole {
     private static final String DEFAULT_PATH = "./data/";
@@ -23,13 +24,17 @@ public class WorkoutTrackerConsole {
     private JsonWriter jsonWriter;
     private JsonReader jsonReader;
 
-    // EFFECTS: runs the tracker app
+    /*
+    EFFECTS: runs the tracker app
+     */
     public WorkoutTrackerConsole() {
         runTracker();
     }
 
-    // MODIFIES: this
-    // EFFECTS: processes user input in the home menu
+    /*
+    MODIFIES: this
+    EFFECTS: processes user input in the home menu
+     */
     private void runTracker() {
         boolean keepGoing = true;
         String command;
@@ -58,8 +63,10 @@ public class WorkoutTrackerConsole {
         }
     }
 
-    // MODIFIES: this
-    // EFFECTS: initializes routine
+    /*
+    MODIFIES: this
+    EFFECTS: initializes routine
+     */
     private void init() {
         input = new Scanner(System.in);
         input.useDelimiter("\n");
@@ -68,7 +75,9 @@ public class WorkoutTrackerConsole {
         jsonReader = new JsonReader();
     }
 
-    // EFFECTS: displays home menu of options to user
+    /*
+    EFFECTS: displays home menu of options to user
+     */
     private void displayHomeMenu() {
         System.out.println("\nSelect from:");
         System.out.println("\tm -> Modify routine");
@@ -78,7 +87,9 @@ public class WorkoutTrackerConsole {
         System.out.print("Make your selection: ");
     }
 
-    // EFFECTS: process user command in the home menu
+    /*
+    EFFECTS: process user command in the home menu
+     */
     private void processHomeCommand(String command) {
         switch (command) {
             case "m":
@@ -96,8 +107,10 @@ public class WorkoutTrackerConsole {
         }
     }
 
-    // MODIFIES: this
-    // EFFECTS: processes user input in modify menu
+    /*
+    MODIFIES: this
+    EFFECTS: processes user input in modify menu
+     */
     private void doModify() {
         boolean keepGoing = true;
         String command;
@@ -115,7 +128,9 @@ public class WorkoutTrackerConsole {
         }
     }
 
-    // EFFECTS: displays modify menu of options to user
+    /*
+    EFFECTS: displays modify menu of options to user
+     */
     private void displayModifyMenu() {
         System.out.println("\nSelect from:");
         System.out.println("\tn -> New routine");
@@ -129,7 +144,9 @@ public class WorkoutTrackerConsole {
         System.out.print("Make your selection: ");
     }
 
-    // EFFECTS: process user command in the modify menu
+    /*
+    EFFECTS: process user command in the modify menu
+     */
     @SuppressWarnings({"checkstyle:MethodLength", "checkstyle:SuppressWarnings"})
     private void processModifyCommand(String command) {
         switch (command) {
@@ -160,8 +177,10 @@ public class WorkoutTrackerConsole {
         }
     }
 
-    // MODIFIES: this
-    // EFFECTS: creates a new empty routine with the input name
+    /*
+    MODIFIES: this
+    EFFECTS: creates a new empty routine with the input name
+     */
     private void newRoutine() {
         System.out.print("\nRoutine Name: ");
         String name = input.next();
@@ -170,8 +189,10 @@ public class WorkoutTrackerConsole {
         routine.setName(name);
     }
 
-    // MODIFIES: this
-    // EFFECTS: displays available routines and loads routine from file
+    /*
+    MODIFIES: this
+    EFFECTS: displays available routines and loads routine from file
+     */
     private void loadRoutine() {
         ArrayList<String> fileNames = getFiles();
         int index = 1;
@@ -194,7 +215,9 @@ public class WorkoutTrackerConsole {
         }
     }
 
-    // EFFECTS: retrieves files in ./data/ folder
+    /*
+    EFFECTS: retrieves files in ./data/ folder
+     */
     private ArrayList<String> getFiles() {
         String[] fileNames;
 
@@ -204,7 +227,9 @@ public class WorkoutTrackerConsole {
         return filterJson(fileNames);
     }
 
-    // EFFECTS: filters fileNames for only *.json
+    /*
+    EFFECTS: filters fileNames for only *.json
+     */
     private ArrayList<String> filterJson(String[] fileNames) {
         ArrayList<String> filterFileNames = new ArrayList<>();
         for (String fileName : fileNames) {
@@ -216,7 +241,9 @@ public class WorkoutTrackerConsole {
         return filterFileNames;
     }
 
-    // EFFECTS: saves routine to file
+    /*
+    EFFECTS: saves routine to file
+     */
     private void saveRoutine() {
         String path = DEFAULT_PATH + routine.getName().replace(" ", "_") + ".json";
         jsonWriter.setDestination(path);
@@ -231,8 +258,10 @@ public class WorkoutTrackerConsole {
         }
     }
 
-    // MODIFIES: this
-    // EFFECTS: sets name of current routine
+    /*
+    MODIFIES: this
+    EFFECTS: sets name of current routine
+     */
     private void changeName() {
         System.out.println("\nCurrent Name: " + routine.getName());
         System.out.print("New Name (press b to cancel): ");
@@ -243,8 +272,10 @@ public class WorkoutTrackerConsole {
         }
     }
 
-    // MODIFIES: this
-    // EFFECTS: adds new exercise to exercises in routine
+    /*
+    MODIFIES: this
+    EFFECTS: adds new exercise to exercises in routine
+     */
     private void addNewExercise() {
         System.out.print("\nExercise Name: ");
         String name = input.next();
@@ -269,7 +300,9 @@ public class WorkoutTrackerConsole {
         }
     }
 
-    // EFFECTS: converts string input to Equipment
+    /*
+    EFFECTS: converts string input to Equipment
+     */
     private Equipment convertToEquipment(String equipment) {
         switch (equipment) {
             case "b":
@@ -285,8 +318,10 @@ public class WorkoutTrackerConsole {
         }
     }
 
-    // MODIFIES: this
-    // EFFECTS: removes exercise already in exercises
+    /*
+    MODIFIES: this
+    EFFECTS: removes exercise already in exercises
+     */
     private void removeExercise() {
         if (routine.getExercises().isEmpty()) {
             System.out.println("\nNo exercises in routine!");
@@ -304,7 +339,9 @@ public class WorkoutTrackerConsole {
         }
     }
 
-    // EFFECTS: displays workout routine to user
+    /*
+    EFFECTS: displays workout routine to user
+     */
     private void doView() {
         if (routine.getExercises().isEmpty()) {
             System.out.println("\nNo exercises in routine!");
@@ -313,8 +350,10 @@ public class WorkoutTrackerConsole {
         }
     }
 
-    // MODIFIES: this
-    // EFFECTS: processes user input in begin session menu
+    /*
+    MODIFIES: this
+    EFFECTS: processes user input in begin session menu
+     */
     private void doSession() {
         if (routine.getExercises().isEmpty()) {
             System.out.println("\nNo exercises in routine!");
@@ -343,7 +382,9 @@ public class WorkoutTrackerConsole {
         }
     }
 
-    // EFFECTS: displays begin session menu of options to user
+    /*
+    EFFECTS: displays begin session menu of options to user
+     */
     private void displaySessionMenu() {
         System.out.println("\n" + routine.viewWorkout());
         System.out.println("Select from:");
@@ -354,7 +395,9 @@ public class WorkoutTrackerConsole {
         System.out.print("Make your selection: ");
     }
 
-    // EFFECTS: process user command in the begin session menu
+    /*
+    EFFECTS: process user command in the begin session menu
+     */
     private void processSessionCommand(String command) {
         switch (command) {
             case "w":
@@ -372,8 +415,10 @@ public class WorkoutTrackerConsole {
         }
     }
 
-    // MODIFIES: this
-    // EFFECTS: sets weight for current exercise
+    /*
+    MODIFIES: this
+    EFFECTS: sets weight for current exercise
+     */
     private void doSetWeight() {
         System.out.println("\nNOTE: Input plate weight on one side for barbell exercises");
         System.out.print("Weight (in lb): ");
@@ -381,14 +426,18 @@ public class WorkoutTrackerConsole {
         routine.addWeightToCurrent(weight);
     }
 
-    // MODIFIES: this
-    // EFFECTS: adds set to progress
+    /*
+    MODIFIES: this
+    EFFECTS: adds set to progress
+     */
     private void doAddSet() {
         routine.addSetToProgress();
     }
 
-    // MODIFIES: this
-    // EFFECTS: skips exercise in routine
+    /*
+    MODIFIES: this
+    EFFECTS: skips exercise in routine
+     */
     private void doSkipExercise() {
         routine.skipExercise();
     }
