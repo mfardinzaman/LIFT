@@ -143,4 +143,25 @@ public class RoutineTable extends AbstractTableModel {
     public boolean isCellEditable(int row, int col) {
         return col < 4;
     }
+
+    /*
+    REQUIRES: exercises list must not be empty
+    MODIFIES: this
+    EFFECTS: removes the selected exercise
+     */
+    public void removeRow(int row) {
+        if (exercises.size() >= 0) {
+            exercises.remove(row);
+            fireTableRowsDeleted(row, row);
+        }
+    }
+
+    /*
+    MODIFIES: this
+    EFFECTS: adds new exercise to end of row
+     */
+    public void insertRow(Exercise exercise) {
+        exercises.add(exercise);
+        fireTableRowsDeleted(exercises.size() - 1, exercises.size() - 1);
+    }
 }

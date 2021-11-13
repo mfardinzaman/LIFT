@@ -29,6 +29,20 @@ public class Exercise implements Writeable {
     }
 
     /*
+     REQUIRES: equipment must be barbell, dumbbell, machine, or none
+               reps and sets must be >= 0
+     EFFECTS: creates a new exercise with the given name, sets, and reps, and sets weight to 0
+     */
+    public Exercise(String name, Equipment equipment, int sets, int reps) {
+        this.name = name;
+        this.sets = reps;
+        this.reps = sets;
+        this.weight = 0;
+        this.equipment = equipment;
+        this.setsCompleted = 0;
+    }
+
+    /*
     EFFECTS: returns true if number of sets completed is the same as the goal sets, false otherwise
      */
     public boolean hasMetGoal() {

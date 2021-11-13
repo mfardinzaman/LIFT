@@ -9,6 +9,8 @@ import persistence.JsonWriter;
 import javax.swing.*;
 import javax.swing.table.TableColumn;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
 
@@ -24,6 +26,9 @@ public class WorkoutTracker extends JFrame {
     private JsonWriter jsonWriter;
     private JsonReader jsonReader;
 
+    private JTable table;
+    private JList files;
+
     /*
     EFFECTS: Constructor sets up all panes and buttons
      */
@@ -32,7 +37,7 @@ public class WorkoutTracker extends JFrame {
         routine = new Routine();
         this.setTitle("Workout Tracker: [" + routine.getName() + "]");
 
-        // TODO: for testing only
+        // TODO: delete - for testing only
         Exercise bentOverBarbellRow = new Exercise("Bent Over Barbell Row", Equipment.BARBELL);
         Exercise barbellBenchPress = new Exercise("Barbell Bench Press", Equipment.BARBELL);
         Exercise barbellSquat = new Exercise("Barbell Squat", Equipment.BARBELL);
@@ -65,47 +70,138 @@ public class WorkoutTracker extends JFrame {
     EFFECTS: Displays all panes in main window
      */
     private void initView() {
-        JScrollPane viewRoutine = viewRoutine();
+        JPanel routinePanel = routinePanel();
         JScrollPane viewTools = viewTools();
 
-        JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, viewRoutine,viewTools);
+        JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, routinePanel,viewTools);
         splitPane.setDividerLocation(250);
         add(splitPane);
+    }
+    
+    /*
+    EFFECTS: creates panel containing routine and buttons
+     */
+    private JPanel routinePanel() {
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
+
+        panel.add(viewRoutine());
+
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new GridLayout());
+
+        makeAddButton(buttonPanel);
+        makeRemoveButton(buttonPanel);
+
+        panel.add(buttonPanel);
+
+        return panel;
+    }
+
+    private void makeAddButton(JPanel buttonPanel) {
+        JButton addButton = makeButton("Add Exercise", "plus_icon.png");
+        addButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                RoutineTable model = (RoutineTable) table.getModel();
+                Exercise exercise = getExerciseDetails();
+                if (exercise != null) {
+                    try {
+                        model.insertRow(exercise);
+                    } catch (Exception e) {
+                        JOptionPane.showMessageDialog(null, "Not a valid exercise","Error",
+                                JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            }
+        });
+        buttonPanel.add(addButton);
+    }
+
+    private Exercise getExerciseDetails() {
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(0, 2));
+        GridBagConstraints c = new GridBagConstraints();
+
+        JTextField nameField = new JTextField();
+        JComboBox equipmentField = new JComboBox(Equipment.values());
+        equipmentField.setSelectedItem(Equipment.NONE);
+        JTextField setsField = new JTextField();
+        JTextField repsField = new JTextField();
+
+        newExercisePanel(panel, c, 0, nameField, "Exercise name:");
+        newExercisePanel(panel, c, 1, equipmentField, "Equipment type:");
+        newExercisePanel(panel, c, 2, setsField, "Number of sets:");
+        newExercisePanel(panel, c, 3, repsField, "Number of reps:");
+
+        int result = JOptionPane.showConfirmDialog(null, panel,"New Exercise",
+                JOptionPane.OK_CANCEL_OPTION);
+
+        if (result == JOptionPane.OK_OPTION) {
+            String name = nameField.getText();
+            Equipment equipment = (Equipment) equipmentField.getSelectedItem();
+            int sets = Integer.valueOf(setsField.getText());
+            int reps = Integer.valueOf(repsField.getText());
+
+            return new Exercise(name, equipment, sets, reps);
+        } else {
+            return null;
+        }
+    }
+
+    private void newExercisePanel(JPanel panel, GridBagConstraints c, int y, JComponent component, String text) {
+        c.gridx = 0;
+        c.gridy = y;
+        panel.add(new JLabel(text));
+
+        c.gridx = 1;
+        c.gridy = y;
+        c.gridwidth = GridBagConstraints.REMAINDER;
+        component.setPreferredSize(new Dimension(100, 25));
+        panel.add(component, c);
+    }
+
+    /*
+    MODIFIES: buttonPanel
+    EFFECTS: creates a button to remove an exercise from the table
+    Inspired by: https://www.tutorialspoint.com/how-can-we-remove-a-selected-row-from-a-jtable-in-java
+     */
+    private void makeRemoveButton(JPanel buttonPanel) {
+        JButton removeButton = makeButton("Remove Exercise", "minus_icon.png");
+        removeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                RoutineTable model = (RoutineTable) table.getModel();
+                model.removeRow(table.getSelectedRow());
+                JOptionPane.showMessageDialog(null,
+                        "Exercise deleted successfully",
+                        "Exercise deleted",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        });
+        buttonPanel.add(removeButton);
     }
 
     /*
     EFFECTS: Creates JTable representing current routine
      */
     private JScrollPane viewRoutine() {
-        JTable table = new JTable(new RoutineTable(routine));
+        table = new JTable(new RoutineTable(routine));
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         table.setFillsViewportHeight(true);
         table.setRowHeight(25);
         table.setOpaque(true);
         table.setFont(new Font("Arial",Font.PLAIN,16));
 
-        makeEquipmentComboBox(table);
+        // Inspired by: https://www.codejava.net/java-se/swing/how-to-create-jcombobox-cell-editor-for-jtable
+        TableColumn equipment = table.getColumnModel().getColumn(1);
+        JComboBox comboBox = new JComboBox(Equipment.values());
+        equipment.setCellEditor((new DefaultCellEditor(comboBox)));
 
         table.getColumnModel().getColumn(0).setPreferredWidth(300);
         table.getColumnModel().getColumn(1).setPreferredWidth(100);
 
         return new JScrollPane(table);
-    }
-
-    /*
-     EFFECTS: Creates combo box to edit Equipment column
-     Inspired by: https://www.codejava.net/java-se/swing/how-to-create-jcombobox-cell-editor-for-jtable
-     */
-    private void makeEquipmentComboBox(JTable table) {
-        TableColumn equipment = table.getColumnModel().getColumn(1);
-
-        JComboBox comboBox = new JComboBox();
-        comboBox.addItem(Equipment.BARBELL);
-        comboBox.addItem(Equipment.DUMBBELL);
-        comboBox.addItem(Equipment.MACHINE);
-        comboBox.addItem(Equipment.NONE);
-
-        equipment.setCellEditor((new DefaultCellEditor(comboBox)));
     }
 
     /*
@@ -126,7 +222,7 @@ public class WorkoutTracker extends JFrame {
      */
     private void modifyPanel(JTabbedPane tabbedPane) {
         JPanel buttonPanel = modifyButtons();
-        JList files = new JList(getFiles());
+        files = new JList(getFiles());
 
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, buttonPanel,files);
         splitPane.setDividerLocation(200);
@@ -177,19 +273,19 @@ public class WorkoutTracker extends JFrame {
         c.insets = new Insets(0,0,20,0);
         panel.add(title, c);
 
-        JButton newButton = makeButton("new_icon.png", "NEW", c, 0, 1);
+        JButton newButton = makeButton("NEW", "new_icon.png", c, 0, 1);
         newButton.setToolTipText("Create new routine");
         panel.add(newButton, c);
 
-        JButton renameButton = makeButton("rename_icon.png","RENAME", c,0,2);
+        JButton renameButton = makeButton("RENAME", "rename_icon.png", c,0,2);
         renameButton.setToolTipText("Rename current routine");
         panel.add(renameButton, c);
 
-        JButton saveButton = makeButton("save_icon.png", "SAVE", c, 0, 3);
+        JButton saveButton = makeButton("SAVE", "save_icon.png", c, 0, 3);
         saveButton.setToolTipText("Save current routine");
         panel.add(saveButton, c);
 
-        JButton loadButton = makeButton("open_icon.png","LOAD",c,0,4);
+        JButton loadButton = makeButton("LOAD", "open_icon.png",c,0,4);
         loadButton.setToolTipText("Load selected routine from right");
         panel.add(loadButton, c);
 
@@ -200,7 +296,23 @@ public class WorkoutTracker extends JFrame {
     REQUIRES: valid img in resources folder
     EFFECTS: creates new button
      */
-    private JButton makeButton(String img, String name, GridBagConstraints c, int x, int y) {
+    private JButton makeButton(String name, String img) {
+        ImageIcon icon = new ImageIcon(IMG_PATH + img);
+
+        JButton button = new JButton(name, icon);
+        button.setVerticalTextPosition(AbstractButton.CENTER);
+        button.setHorizontalTextPosition(AbstractButton.TRAILING);
+        button.setHorizontalAlignment(SwingConstants.CENTER);
+        button.setIconTextGap(10);
+
+        return button;
+    }
+
+    /*
+    REQUIRES: valid img in resources folder
+    EFFECTS: creates new button for GridBagLayout
+     */
+    private JButton makeButton(String name, String img, GridBagConstraints c, int x, int y) {
         ImageIcon icon = new ImageIcon(IMG_PATH + img);
 
         JButton button = new JButton(name, icon);
@@ -221,14 +333,31 @@ public class WorkoutTracker extends JFrame {
     EFFECTS: adds session controls to tabbed pane
      */
     private void sessionPanel(JTabbedPane tabbedPane) {
-        JPanel panel = new JPanel(false);
-        JLabel filler = new JLabel("Panel 2");
-        filler.setHorizontalAlignment(JLabel.CENTER);
-        panel.setLayout(new GridLayout(1, 1));
-        panel.add(filler);
+        JPanel panel = sessionTools();
 
         ImageIcon icon = new ImageIcon(IMG_PATH + "barbel_icon.png");
         tabbedPane.addTab("Session", icon, panel, "Go to current session");
+    }
+
+    private JPanel sessionTools() {
+        JPanel panel = new JPanel(false);
+        panel.setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
+        c.fill = GridBagConstraints.HORIZONTAL;
+
+        JButton weightButton = makeButton("Set Weight", "weight_icon.png", c, 0, 0);
+        weightButton.setToolTipText("Set weight for current exercise");
+        panel.add(weightButton, c);
+
+        JButton setButton = makeButton("Add set", "complete_icon.png", c, 0, 1);
+        setButton.setToolTipText("Complete set for current exercise");
+        panel.add(setButton, c);
+
+        JButton skipButton = makeButton("Skip set", "cancel_icon.png", c, 0, 2);
+        skipButton.setToolTipText("Skip exercise and move on to next exercise");
+        panel.add(skipButton, c);
+
+        return panel;
     }
 
     /*
