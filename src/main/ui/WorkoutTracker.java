@@ -12,6 +12,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -58,6 +60,9 @@ public class WorkoutTracker extends JFrame {
     EFFECTS: Initializes JFrame settings (window size, close operation, icon)
      */
     private void initSettings() {
+        jsonReader = new JsonReader();
+        jsonWriter = new JsonWriter();
+
         this.setSize(750,750);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
@@ -224,6 +229,7 @@ public class WorkoutTracker extends JFrame {
     private void modifyPanel(JTabbedPane tabbedPane) {
         JPanel buttonPanel = modifyButtons();
         files = new JList(getFiles());
+        files.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, buttonPanel,files);
         splitPane.setDividerLocation(200);
@@ -263,6 +269,7 @@ public class WorkoutTracker extends JFrame {
     EFFECTS: adds buttons to modify routine pane
      */
     private JPanel modifyButtons() {
+        JPanel buttonPanel = new JPanel();
         JPanel panel = new JPanel(false);
         panel.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
@@ -274,18 +281,69 @@ public class WorkoutTracker extends JFrame {
         c.insets = new Insets(0,0,20,0);
         panel.add(title, c);
 
-        addNewButton(panel, c, title);
-        addRenameButton(panel, c, title);
+        addNewButton(buttonPanel, c, title);
+        addRenameButton(buttonPanel, c, title);
+        addSaveButton(buttonPanel, c);
+        addLoadButton(buttonPanel, c, title);
 
-        JButton saveButton = makeButton("SAVE", "save_icon.png", c, 0, 3);
-        saveButton.setToolTipText("Save current routine");
-        panel.add(saveButton, c);
-
-        JButton loadButton = makeButton("LOAD", "open_icon.png",c,0,4);
-        loadButton.setToolTipText("Load selected routine from right");
-        panel.add(loadButton, c);
+        panel.add(buttonPanel);
 
         return panel;
+    }
+
+    private void addSaveButton(JPanel panel, GridBagConstraints c) {
+        JButton saveButton = makeButton("SAVE", "save_icon.png", c, 0, 3);
+        saveButton.setToolTipText("Save current routine");
+        saveButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                String path = SAVE_PATH + routine.getName().replace(" ", "_") + ".json";
+                jsonWriter.setDestination(path);
+
+                try {
+                    jsonWriter.open();
+                    jsonWriter.write(routine);
+                    jsonWriter.close();
+                    JOptionPane.showMessageDialog(null,
+                            "Saved " + routine.getName() + " to " + path,
+                            "Routine saved", JOptionPane.INFORMATION_MESSAGE);
+
+                    files.setListData(getFiles());
+                } catch (FileNotFoundException e) {
+                    JOptionPane.showMessageDialog(null, "Unable to write to file: " + path,
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+        panel.add(saveButton, c);
+    }
+
+    /*
+    MODIFIES: panel
+    EFFECTS: creates load routine button and adds to panel
+     */
+    private void addLoadButton(JPanel panel, GridBagConstraints c, JLabel title) {
+        JButton loadButton = makeButton("LOAD", "open_icon.png", c,0,4);
+        loadButton.setToolTipText("Load selected routine from right");
+        loadButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                String path = SAVE_PATH + (String) files.getSelectedValue();
+                jsonReader.setSource(path);
+
+                try {
+                    routine = jsonReader.read();
+                    RoutineTable model = (RoutineTable) table.getModel();
+                    model.setExercises(routine);
+                    title.setText(routine.getName());
+                    WorkoutTracker.this.setTitle("Workout Tracker: [" + routine.getName() + "]");
+                } catch (IOException e) {
+                    JOptionPane.showMessageDialog(null, "Unable to read from file: " + path,
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+        panel.add(loadButton, c);
     }
 
     /*
