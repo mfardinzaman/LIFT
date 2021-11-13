@@ -71,7 +71,7 @@ public class WorkoutTracker extends JFrame {
      */
     private void initView() {
         JPanel routinePanel = routinePanel();
-        JScrollPane viewTools = viewTools();
+        JTabbedPane viewTools = viewTools();
 
         JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, routinePanel,viewTools);
         splitPane.setDividerLocation(250);
@@ -104,14 +104,15 @@ public class WorkoutTracker extends JFrame {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 RoutineTable model = (RoutineTable) table.getModel();
-                Exercise exercise = getExerciseDetails();
+                Exercise exercise = null;
+                try {
+                    exercise = getExerciseDetails();
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, "Not a valid exercise","Error",
+                            JOptionPane.ERROR_MESSAGE);
+                }
                 if (exercise != null) {
-                    try {
-                        model.insertRow(exercise);
-                    } catch (Exception e) {
-                        JOptionPane.showMessageDialog(null, "Not a valid exercise","Error",
-                                JOptionPane.ERROR_MESSAGE);
-                    }
+                    model.insertRow(exercise);
                 }
             }
         });
@@ -207,13 +208,13 @@ public class WorkoutTracker extends JFrame {
     /*
     EFFECTS: Adds tools and buttons to bottom pane
      */
-    private JScrollPane viewTools() {
+    private JTabbedPane viewTools() {
         JTabbedPane tabbedPane = new JTabbedPane();
 
         modifyPanel(tabbedPane);
         sessionPanel(tabbedPane);
 
-        return new JScrollPane(tabbedPane);
+        return tabbedPane;
     }
 
     /*
@@ -273,13 +274,8 @@ public class WorkoutTracker extends JFrame {
         c.insets = new Insets(0,0,20,0);
         panel.add(title, c);
 
-        JButton newButton = makeButton("NEW", "new_icon.png", c, 0, 1);
-        newButton.setToolTipText("Create new routine");
-        panel.add(newButton, c);
-
-        JButton renameButton = makeButton("RENAME", "rename_icon.png", c,0,2);
-        renameButton.setToolTipText("Rename current routine");
-        panel.add(renameButton, c);
+        addNewButton(panel, c, title);
+        addRenameButton(panel, c, title);
 
         JButton saveButton = makeButton("SAVE", "save_icon.png", c, 0, 3);
         saveButton.setToolTipText("Save current routine");
@@ -290,6 +286,50 @@ public class WorkoutTracker extends JFrame {
         panel.add(loadButton, c);
 
         return panel;
+    }
+
+    /*
+    MODIFIES: panel
+    EFFECTS: creates new routine button and adds to panel
+     */
+    private void addNewButton(JPanel panel, GridBagConstraints c, JLabel title) {
+        JButton newButton = makeButton("NEW", "new_icon.png", c, 0, 1);
+        newButton.setToolTipText("Create new routine");
+        newButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String name = (String) JOptionPane.showInputDialog(null, "Exercise name:",
+                        "Exercise name",JOptionPane.QUESTION_MESSAGE);
+
+                routine = new Routine(name);
+                RoutineTable model = (RoutineTable) table.getModel();
+                model.setExercises(routine);
+                title.setText(name);
+                WorkoutTracker.this.setTitle("Workout Tracker: [" + routine.getName() + "]");
+            }
+        });
+        panel.add(newButton, c);
+    }
+
+    /*
+    MODIFIES: panel
+    EFFECTS: creates rename routine button and adds to panel
+     */
+    private void addRenameButton(JPanel panel, GridBagConstraints c, JLabel title) {
+        JButton renameButton = makeButton("RENAME", "rename_icon.png", c,0,2);
+        renameButton.setToolTipText("Rename current routine");
+        renameButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String name = (String) JOptionPane.showInputDialog(null, "Exercise name:",
+                        "Exercise name",JOptionPane.QUESTION_MESSAGE);
+
+                routine.setName(name);
+                title.setText(name);
+                WorkoutTracker.this.setTitle("Workout Tracker: [" + routine.getName() + "]");
+            }
+        });
+        panel.add(renameButton, c);
     }
 
     /*

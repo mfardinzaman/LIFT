@@ -31,6 +31,11 @@ public class RoutineTable extends AbstractTableModel {
         this.exercises = routine.getExercises();
     }
 
+    public void setExercises(Routine routine) {
+        this.exercises = routine.getExercises();
+        fireTableDataChanged();
+    }
+
     /*
     EFFECTS: returns number of rows
      */

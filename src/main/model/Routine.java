@@ -32,6 +32,18 @@ public class Routine implements Writeable {
     }
 
     /*
+    EFFECTS: initializes a workout routine that is not in session with empty exercise list, no currently selected
+             exercise, and progress set to 0 with name set to name
+     */
+    public Routine(String name) {
+        this.name = name;
+        exercises = new ArrayList<>();
+        inSession = false;
+        current = null;
+        progress = 0;
+    }
+
+    /*
     REQUIRES: Exercise should not be in the current routine.
     MODIFIES: this
     EFFECTS: adds an exercise to the exercise list with indicated sets and reps
