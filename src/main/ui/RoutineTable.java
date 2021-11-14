@@ -6,6 +6,7 @@ import model.Exercise;
 import model.Routine;
 
 import javax.swing.table.AbstractTableModel;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -34,6 +35,10 @@ public class RoutineTable extends AbstractTableModel {
     public void setExercises(Routine routine) {
         this.exercises = routine.getExercises();
         fireTableDataChanged();
+    }
+
+    public ArrayList<Exercise> getExercises() {
+        return exercises;
     }
 
     /*
@@ -135,7 +140,7 @@ public class RoutineTable extends AbstractTableModel {
     EFFECTS: returns Class of indicated column
      */
     @Override
-    public Class getColumnClass(int column) {
+    public Class<?> getColumnClass(int column) {
         return getValueAt(0, column).getClass();
     }
 
@@ -155,10 +160,8 @@ public class RoutineTable extends AbstractTableModel {
     EFFECTS: removes the selected exercise
      */
     public void removeRow(int row) {
-        if (exercises.size() >= 0) {
-            exercises.remove(row);
-            fireTableRowsDeleted(row, row);
-        }
+        exercises.remove(row);
+        fireTableRowsDeleted(row, row);
     }
 
     /*
