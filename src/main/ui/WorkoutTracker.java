@@ -71,8 +71,11 @@ public class WorkoutTracker extends JFrame {
         add(splitPane);
     }
 
+    /*
+    EFFECTS: Displays an error dialog box with indicate error message
+     */
     private void errorDialog(String errorMessage) {
-        JOptionPane.showMessageDialog(null, errorMessage, "Error",
+        JOptionPane.showMessageDialog(null, errorMessage, "ERROR",
                 JOptionPane.ERROR_MESSAGE);
     }
 
@@ -88,6 +91,7 @@ public class WorkoutTracker extends JFrame {
         button.setHorizontalTextPosition(AbstractButton.TRAILING);
         button.setHorizontalAlignment(SwingConstants.CENTER);
         button.setIconTextGap(10);
+        button.setFocusable(false);
 
         return button;
     }
@@ -104,6 +108,7 @@ public class WorkoutTracker extends JFrame {
         button.setHorizontalTextPosition(AbstractButton.TRAILING);
         button.setHorizontalAlignment(SwingConstants.LEFT);
         button.setIconTextGap(10);
+        button.setFocusable(false);
 
         c.insets = new Insets(3,3,3,3);
         c.gridx = x;
@@ -261,7 +266,7 @@ public class WorkoutTracker extends JFrame {
                 model.removeRow(table.getSelectedRow());
                 JOptionPane.showMessageDialog(null,
                         "Exercise deleted successfully",
-                        "Exercise deleted",
+                        "Exercise Deleted",
                         JOptionPane.ERROR_MESSAGE);
             } catch (HeadlessException e) {
                 errorDialog("No exercise selected");
@@ -347,14 +352,16 @@ public class WorkoutTracker extends JFrame {
         JButton newButton = makeButton("NEW", "new_icon.png", c, 0, 1);
         newButton.setToolTipText("Create new routine");
         newButton.addActionListener(ae -> {
-            String name = JOptionPane.showInputDialog(null, "Exercise name:",
-                    "Exercise name",JOptionPane.QUESTION_MESSAGE);
+            String name = JOptionPane.showInputDialog(null, "Routine name:",
+                    "New Routine",JOptionPane.QUESTION_MESSAGE);
 
-            routine = new Routine(name);
-            RoutineTable model = (RoutineTable) table.getModel();
-            model.setExercises(routine);
-            title.setText(name);
-            WorkoutTracker.this.setTitle("Workout Tracker: [" + routine.getName() + "]");
+            if (name != null) {
+                routine = new Routine(name);
+                RoutineTable model = (RoutineTable) table.getModel();
+                model.setExercises(routine);
+                title.setText(name);
+                WorkoutTracker.this.setTitle("Workout Tracker: [" + routine.getName() + "]");
+            }
         });
         panel.add(newButton, c);
     }
@@ -367,12 +374,14 @@ public class WorkoutTracker extends JFrame {
         JButton renameButton = makeButton("RENAME", "rename_icon.png", c,0,2);
         renameButton.setToolTipText("Rename current routine");
         renameButton.addActionListener(ae -> {
-            String name = JOptionPane.showInputDialog(null, "Exercise name:",
-                    "Exercise name",JOptionPane.QUESTION_MESSAGE);
+            String name = JOptionPane.showInputDialog(null, "Routine name:",
+                    "Rename Routine",JOptionPane.QUESTION_MESSAGE);
 
-            routine.setName(name);
-            title.setText(name);
-            WorkoutTracker.this.setTitle("Workout Tracker: [" + routine.getName() + "]");
+            if (name != null) {
+                routine.setName(name);
+                title.setText(name);
+                WorkoutTracker.this.setTitle("Workout Tracker: [" + routine.getName() + "]");
+            }
         });
         panel.add(renameButton, c);
     }
@@ -394,7 +403,7 @@ public class WorkoutTracker extends JFrame {
                 jsonWriter.close();
                 JOptionPane.showMessageDialog(null,
                         "Saved " + routine.getName() + " to " + path,
-                        "Routine saved", JOptionPane.INFORMATION_MESSAGE);
+                        "Routine Saved", JOptionPane.INFORMATION_MESSAGE);
 
                 files.setListData(getFiles());
             } catch (FileNotFoundException e) {
@@ -478,13 +487,14 @@ public class WorkoutTracker extends JFrame {
                 errorDialog("Session has not been started");
             } else {
                 try {
-                    int weight = Integer.parseInt(JOptionPane.showInputDialog(null,
-                            "NOTE: Input plate weight on one side for barbell exercises\nWeight (in lb):",
-                            "Set weight",
-                            JOptionPane.QUESTION_MESSAGE));
+                    String weight = JOptionPane.showInputDialog(null,
+                                "NOTE: Input plate weight on one side for barbell exercises\nWeight (in lb):",
+                                "Set Weight", JOptionPane.QUESTION_MESSAGE);
 
-                    routine.addWeightToCurrent(weight);
-                    table.repaint();
+                    if (weight != null) {
+                        routine.addWeightToCurrent(Integer.parseInt(weight));
+                        table.repaint();
+                    }
                 } catch (Exception e) {
                     errorDialog("Not a valid weight");
                 }
@@ -551,7 +561,7 @@ public class WorkoutTracker extends JFrame {
             message = "You didn't meet your goals.\nRest up and better luck next time!";
         }
 
-        JOptionPane.showMessageDialog(null, message, "Session complete",
+        JOptionPane.showMessageDialog(null, message, "Session Complete",
                 JOptionPane.INFORMATION_MESSAGE);
     }
 
