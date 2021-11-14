@@ -35,8 +35,8 @@ public class Exercise implements Writeable {
      */
     public Exercise(String name, Equipment equipment, int sets, int reps) {
         this.name = name;
-        this.sets = reps;
-        this.reps = sets;
+        this.sets = sets;
+        this.reps = reps;
         this.weight = 0;
         this.equipment = equipment;
         this.setsCompleted = 0;

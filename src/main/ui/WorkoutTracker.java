@@ -51,7 +51,7 @@ public class WorkoutTracker extends JFrame {
         jsonReader = new JsonReader();
         jsonWriter = new JsonWriter();
 
-        this.setSize(750,750);
+        this.setSize(500,600);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
 
@@ -67,7 +67,7 @@ public class WorkoutTracker extends JFrame {
         JTabbedPane viewTools = viewTools();
 
         JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, routinePanel,viewTools);
-        splitPane.setDividerLocation(250);
+        splitPane.setDividerLocation(200);
         add(splitPane);
     }
 
@@ -200,22 +200,6 @@ public class WorkoutTracker extends JFrame {
     }
 
     /*
-    MODIFIES: panel
-    EFFECTS: creates input area for multi-input dialog
-     */
-    private void newInputArea(JPanel panel, GridBagConstraints c, int y, JComponent component, String text) {
-        c.gridx = 0;
-        c.gridy = y;
-        panel.add(new JLabel(text));
-
-        c.gridx = 1;
-        c.gridy = y;
-        c.gridwidth = GridBagConstraints.REMAINDER;
-        component.setPreferredSize(new Dimension(100, 25));
-        panel.add(component, c);
-    }
-
-    /*
     EFFECTS: creates new Exercise based on input from user and returns it
      */
     private Exercise getExerciseDetails() {
@@ -249,6 +233,22 @@ public class WorkoutTracker extends JFrame {
     }
 
     /*
+    MODIFIES: panel
+    EFFECTS: creates input area for multi-input dialog
+     */
+    private void newInputArea(JPanel panel, GridBagConstraints c, int y, JComponent component, String text) {
+        c.gridx = 0;
+        c.gridy = y;
+        panel.add(new JLabel(text));
+
+        c.gridx = 1;
+        c.gridy = y;
+        c.gridwidth = GridBagConstraints.REMAINDER;
+        component.setPreferredSize(new Dimension(100, 25));
+        panel.add(component, c);
+    }
+
+    /*
     MODIFIES: buttonPanel
     EFFECTS: creates a button to remove an exercise from the table
     Inspired by: https://www.tutorialspoint.com/how-can-we-remove-a-selected-row-from-a-jtable-in-java
@@ -265,6 +265,8 @@ public class WorkoutTracker extends JFrame {
                         JOptionPane.ERROR_MESSAGE);
             } catch (HeadlessException e) {
                 errorDialog("No exercise selected");
+            } catch (ArrayIndexOutOfBoundsException e) {
+                errorDialog("No exercises in routine");
             }
         });
         buttonPanel.add(removeButton);
@@ -292,7 +294,6 @@ public class WorkoutTracker extends JFrame {
         c.fill = GridBagConstraints.HORIZONTAL;
 
         JLabel title = new JLabel(routine.getName());
-        title.setFont(new Font("Arial", Font.BOLD,16));
         c.anchor = GridBagConstraints.PAGE_START;
         c.insets = new Insets(0,0,20,0);
         panel.add(title, c);
@@ -478,7 +479,7 @@ public class WorkoutTracker extends JFrame {
             } else {
                 try {
                     int weight = Integer.parseInt(JOptionPane.showInputDialog(null,
-                            "NOTE: Input plate weight on one side for barbell exercises\"Weight (in lb):",
+                            "NOTE: Input plate weight on one side for barbell exercises\nWeight (in lb):",
                             "Set weight",
                             JOptionPane.QUESTION_MESSAGE));
 
