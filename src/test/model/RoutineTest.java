@@ -28,8 +28,7 @@ class RoutineTest {
         testRoutine = new Routine();
         testRoutineA = new Routine();
         testRoutineA.setName("Test Routine A");
-        testRoutineB = new Routine();
-        testRoutineB.setName("Test Routine B");
+        testRoutineB = new Routine("Test Routine B");
 
         bentOverBarbellRow = new Exercise("Bent Over Barbell Row", Equipment.BARBELL);
         barbellBenchPress = new Exercise("Barbell Bench Press", Equipment.BARBELL);
