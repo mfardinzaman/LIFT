@@ -32,11 +32,18 @@ public class RoutineTable extends AbstractTableModel {
         this.exercises = routine.getExercises();
     }
 
+    /*
+    MODIFIES: this
+    EFFECTS: sets exercise list
+     */
     public void setExercises(Routine routine) {
         this.exercises = routine.getExercises();
         fireTableDataChanged();
     }
 
+    /*
+    EFFECTS: returns exercise list
+     */
     public ArrayList<Exercise> getExercises() {
         return exercises;
     }
