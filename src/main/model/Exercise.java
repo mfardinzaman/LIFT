@@ -30,7 +30,7 @@ public class Exercise implements Writeable {
 
     /*
      REQUIRES: equipment must be barbell, dumbbell, machine, or none
-               reps and sets must be >= 0
+               reps and sets must be > 0
      EFFECTS: creates a new exercise with the given name, sets, and reps, and sets weight to 0
      */
     public Exercise(String name, Equipment equipment, int sets, int reps) {

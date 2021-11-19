@@ -60,18 +60,6 @@ public class WorkoutTracker extends JFrame {
     }
 
     /*
-    EFFECTS: Displays all panes in main window
-     */
-    private void initView() {
-        JPanel routinePanel = routinePanel();
-        JTabbedPane viewTools = viewTools();
-
-        JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, routinePanel,viewTools);
-        splitPane.setDividerLocation(200);
-        add(splitPane);
-    }
-
-    /*
     EFFECTS: Displays an error dialog box with indicate error message
      */
     private void errorDialog(String errorMessage) {
@@ -81,7 +69,7 @@ public class WorkoutTracker extends JFrame {
 
     /*
     REQUIRES: valid img in resources folder
-    EFFECTS: creates new button
+    EFFECTS: creates new generic button
      */
     private JButton makeButton(String name, String img) {
         ImageIcon icon = new ImageIcon(IMG_PATH + img);
@@ -116,6 +104,19 @@ public class WorkoutTracker extends JFrame {
 
         return button;
     }
+
+    /*
+    MODIFIES: this
+    EFFECTS: Displays all panes in main window
+     */
+    private void initView() {
+        JPanel routinePanel = routinePanel();
+        JTabbedPane viewTools = viewTools();
+
+        JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, routinePanel,viewTools);
+        splitPane.setDividerLocation(200);
+        add(splitPane);
+    }
     
     /*
     EFFECTS: creates panel containing routine and buttons
@@ -137,6 +138,7 @@ public class WorkoutTracker extends JFrame {
     }
 
     /*
+    MODIFIES: this
     EFFECTS: Creates JTable representing current routine
      */
     private JScrollPane viewRoutine() {
@@ -158,6 +160,7 @@ public class WorkoutTracker extends JFrame {
     }
 
     /*
+    MODIFIES: this
     EFFECTS: creates JTable with custom renderer to display current exercise
     Inspired by: https://www.youtube.com/watch?v=iMBfneE2Ztg
      */
@@ -181,6 +184,7 @@ public class WorkoutTracker extends JFrame {
                 return c;
             }
         };
+        table.setForeground(Color.WHITE);
     }
 
     /*
@@ -290,7 +294,7 @@ public class WorkoutTracker extends JFrame {
     }
 
     /*
-    MODIFIES: tabbedPane
+    MODIFIES: this, tabbedPane
     EFFECTS: adds modify routine pane to tabbed pane
      */
     private void modifyPanel(JTabbedPane tabbedPane) {
@@ -345,7 +349,7 @@ public class WorkoutTracker extends JFrame {
     }
 
     /*
-    MODIFIES: panel
+    MODIFIES: this, panel
     EFFECTS: creates button to start new routine and adds to panel
      */
     private void addNewButton(JPanel panel, GridBagConstraints c, JLabel title) {

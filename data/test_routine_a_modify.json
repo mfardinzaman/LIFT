@@ -1,0 +1,35 @@
+{
+    "exercises": [
+        {
+            "reps": 5,
+            "sets": 3,
+            "name": "Bent Over Barbell Row",
+            "equipment": "BARBELL"
+        },
+        {
+            "reps": 5,
+            "sets": 3,
+            "name": "Barbell Bench Press",
+            "equipment": "BARBELL"
+        },
+        {
+            "reps": 5,
+            "sets": 3,
+            "name": "Barbell Squat",
+            "equipment": "BARBELL"
+        },
+        {
+            "reps": 10,
+            "sets": 5,
+            "name": "Bicep Curl",
+            "equipment": "DUMBBELL"
+        },
+        {
+            "reps": 5,
+            "sets": 10,
+            "name": "Tricep Extension",
+            "equipment": "MACHINE"
+        }
+    ],
+    "name": "test routine a modify"
+}

@@ -11,13 +11,13 @@ import java.util.ArrayList;
  * being done, and the current sets progress.
   */
 public class Routine implements Writeable {
+    private static final int WEIGHT_OF_BAR = 45;
+
     private String name;
     private ArrayList<Exercise> exercises;
     private boolean inSession;
     private Exercise current;
     private int progress;
-
-    private static final int WEIGHT_OF_BAR = 45;
 
     /*
     EFFECTS: initializes a workout routine that is not in session with empty exercise list, no currently selected

@@ -1,0 +1,35 @@
+{
+    "exercises": [
+        {
+            "reps": 5,
+            "sets": 3,
+            "name": "Pullup",
+            "equipment": "NONE"
+        },
+        {
+            "reps": 5,
+            "sets": 1,
+            "name": "Deadlift",
+            "equipment": "BARBELL"
+        },
+        {
+            "reps": 5,
+            "sets": 3,
+            "name": "Overhead Barbell Press",
+            "equipment": "BARBELL"
+        },
+        {
+            "reps": 10,
+            "sets": 5,
+            "name": "Incline Dumbbell Press",
+            "equipment": "DUMBBELL"
+        },
+        {
+            "reps": 10,
+            "sets": 5,
+            "name": "Tricep Extension",
+            "equipment": "MACHINE"
+        }
+    ],
+    "name": "Test Routine B"
+}

@@ -34,16 +34,13 @@ public class RoutineTable extends AbstractTableModel {
 
     /*
     MODIFIES: this
-    EFFECTS: sets exercise list
+    EFFECTS: sets exercise list and triggers JTable implementing this TableModel to update table
      */
     public void setExercises(Routine routine) {
         this.exercises = routine.getExercises();
         fireTableDataChanged();
     }
 
-    /*
-    EFFECTS: returns exercise list
-     */
     public ArrayList<Exercise> getExercises() {
         return exercises;
     }
@@ -78,7 +75,7 @@ public class RoutineTable extends AbstractTableModel {
               row in [0, exercises.size())
               col in [0, columnNames.length)
     MODIFIES: this
-    EFFECTS: sets value at specified cell (row, col)
+    EFFECTS: sets value at specified cell (row, col) and triggers JTable implementing this TableModel to update table
      */
     @Override
     public void setValueAt(Object value, int row, int col) {
@@ -164,7 +161,7 @@ public class RoutineTable extends AbstractTableModel {
     /*
     REQUIRES: exercises list must not be empty
     MODIFIES: this
-    EFFECTS: removes the selected exercise
+    EFFECTS: removes the selected exercise and triggers JTable implementing this TableModel to update table
      */
     public void removeRow(int row) {
         exercises.remove(row);
@@ -173,7 +170,7 @@ public class RoutineTable extends AbstractTableModel {
 
     /*
     MODIFIES: this
-    EFFECTS: adds new exercise to end of row
+    EFFECTS: adds new exercise to end of row and triggers JTable implementing this TableModel to update table
      */
     public void insertRow(Exercise exercise) {
         exercises.add(exercise);
