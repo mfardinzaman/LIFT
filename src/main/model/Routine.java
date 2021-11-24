@@ -53,6 +53,8 @@ public class Routine implements Writeable {
         e.setReps(reps);
 
         exercises.add(e);
+
+        EventLog.getInstance().logEvent(new Event(e.getName() + " added to " + this.name));
     }
 
     /*
@@ -61,7 +63,11 @@ public class Routine implements Writeable {
     EFFECTS: removes exercise from exercise list
      */
     public void removeExercise(int index) {
+        Exercise remExercise = exercises.get(index);
+
         exercises.remove(index);
+
+        EventLog.getInstance().logEvent(new Event(remExercise.getName() + " removed from " + this.name));
     }
 
     /*
@@ -72,6 +78,8 @@ public class Routine implements Writeable {
     public void beginSession() {
         inSession = true;
         current = exercises.get(0);
+
+        EventLog.getInstance().logEvent(new Event(this.name + "session initiated with " + current.getName()));
     }
 
     /*
@@ -83,6 +91,8 @@ public class Routine implements Writeable {
         inSession = false;
         current = null;
         progress = 0;
+
+        EventLog.getInstance().logEvent(new Event(this.name + "session terminated"));
     }
 
     /*
@@ -109,14 +119,21 @@ public class Routine implements Writeable {
              - if final set of workout, sets inSession to false and removes current
      */
     public void addSetToProgress() {
+        EventLog.getInstance().logEvent(new Event(
+                "One set of " + current.getName() + " completed in " + this.name));
+
         if (progress == current.getSets() - 1) {
             current.setSetsCompleted(progress + 1);
             progress = 0;
             if (exercises.indexOf(current) == exercises.size() - 1) {
+                EventLog.getInstance().logEvent(new Event("All exercises in " + this.name + " completed"));
                 endSession();
             } else {
                 int indexOfCurrent = exercises.indexOf(current);
+                Exercise prev = current;
                 current = exercises.get(indexOfCurrent + 1);
+                EventLog.getInstance().logEvent(new Event(
+                        prev.getName() + " completed, " + current.getName() + " begun"));
             }
         } else {
             progress++;
@@ -129,8 +146,11 @@ public class Routine implements Writeable {
     EFFECTS: moves on to the next exercise in routine or completes workout if none left
      */
     public void skipExercise() {
+        EventLog.getInstance().logEvent(new Event(current.getName() + " skipped"));
+
         progress = 0;
         if (exercises.indexOf(current) == exercises.size() - 1) {
+            EventLog.getInstance().logEvent(new Event("All exercises in " + this.name + " completed"));
             endSession();
         } else {
             int indexOfCurrent = exercises.indexOf(current);
@@ -183,7 +203,7 @@ public class Routine implements Writeable {
     /*
     EFFECTS: generates header for Routine table
      */
-    public String generateHeader() {
+    private String generateHeader() {
         return getName() + "\n"
                 + "|Cur|Num|"
                 + String.format("%-25s|%-4s|%-4s|%-5s|%-3s|",
@@ -200,7 +220,11 @@ public class Routine implements Writeable {
     }
 
     public void setName(String name) {
+        String prev = this.name;
+
         this.name = name;
+
+        EventLog.getInstance().logEvent(new Event("Routine name changed from " + prev + " to " + name));
     }
 
     public ArrayList<Exercise> getExercises() {

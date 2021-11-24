@@ -1,8 +1,6 @@
 package persistence;
 
-import model.Equipment;
-import model.Exercise;
-import model.Routine;
+import model.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -32,6 +30,9 @@ public class JsonReader {
     public Routine read() throws IOException {
         String jsonData = readFile(source);
         JSONObject jsonObject = new JSONObject(jsonData);
+
+        EventLog.getInstance().logEvent(new Event("Read from file " + source));
+
         return parseRoutine(jsonObject);
     }
 

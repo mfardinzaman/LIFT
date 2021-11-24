@@ -67,7 +67,9 @@ public class Exercise implements Writeable {
     }
 
     public void setName(String name) {
+        String prev = this.name;
         this.name = name;
+        EventLog.getInstance().logEvent(new Event("Changed exercise name from " + prev + " to " + name));
     }
 
     public int getSets() {
@@ -80,7 +82,12 @@ public class Exercise implements Writeable {
      EFFECTS: sets the number of sets
      */
     public void setSets(int sets) {
+        String prev = Integer.toString(this.sets);
         this.sets = sets;
+        EventLog.getInstance().logEvent(new Event("Changed " + this.name + " sets from "
+                + prev
+                + " to "
+                + sets));
     }
 
     public int getReps() {
@@ -93,7 +100,12 @@ public class Exercise implements Writeable {
     EFFECTS: sets the number of reps
      */
     public void setReps(int reps) {
+        String prev = Integer.toString(this.reps);
         this.reps = reps;
+        EventLog.getInstance().logEvent(new Event("Changed " + this.name + " reps from "
+                + prev
+                + " to "
+                + reps));
     }
 
     public int getWeight() {
@@ -106,7 +118,12 @@ public class Exercise implements Writeable {
     EFFECTS: sets the weight
      */
     public void setWeight(int weight) {
+        String prev = Integer.toString(this.weight);
         this.weight = weight;
+        EventLog.getInstance().logEvent(new Event("Changed " + this.name + " weight from "
+                + prev
+                + " to "
+                + weight));
     }
 
     public Equipment getEquipment() {
@@ -114,7 +131,12 @@ public class Exercise implements Writeable {
     }
 
     public void setEquipment(Equipment equipment) {
+        Equipment prev = this.equipment;
         this.equipment = equipment;
+        EventLog.getInstance().logEvent(new Event("Changed " + this.name + " equipment from "
+                + prev
+                + " to "
+                + equipment));
     }
 
     public int getSetsCompleted() {

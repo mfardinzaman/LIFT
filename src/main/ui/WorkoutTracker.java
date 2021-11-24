@@ -184,7 +184,6 @@ public class WorkoutTracker extends JFrame {
                 return c;
             }
         };
-        table.setForeground(Color.WHITE);
     }
 
     /*
