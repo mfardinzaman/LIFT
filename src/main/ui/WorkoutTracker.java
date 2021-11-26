@@ -1,6 +1,8 @@
 package ui;
 
 import model.Equipment;
+import model.Event;
+import model.EventLog;
 import model.Exercise;
 import model.Routine;
 import persistence.JsonReader;
@@ -10,6 +12,8 @@ import javax.swing.*;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -57,6 +61,17 @@ public class WorkoutTracker extends JFrame {
 
         ImageIcon image = new ImageIcon(IMG_PATH + "barbel.png");
         setIconImage(image.getImage());
+
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent we) {
+                for (Event e : EventLog.getInstance()) {
+                    System.out.println(e.toString() + "\n");
+                }
+                System.exit(0);
+
+            }
+        });
     }
 
     /*

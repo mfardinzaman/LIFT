@@ -92,7 +92,7 @@ public class Routine implements Writeable {
         current = null;
         progress = 0;
 
-        EventLog.getInstance().logEvent(new Event(this.name + "session terminated"));
+        EventLog.getInstance().logEvent(new Event(this.name + " session terminated"));
     }
 
     /*
