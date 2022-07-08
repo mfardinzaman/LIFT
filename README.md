@@ -1,4 +1,7 @@
-# Workout Routine Tracker
+# LIFT: Workout Routine Tracker
+
+![saved_workouts](screenshots/saved_workouts.png)
+![session](screenshots/session.png)
 
 A way to keep track of your workout routine and current progress
 
@@ -14,7 +17,7 @@ workout routine has been met.
 I hope this project will help motivate me into getting into the gym. It bridges my interest in fitness with my interest
 in programming.
 
-## User Stories:
+## User Stories motivating design:
 - As a user, I want to create exercises
 - As a user, I want to create a workout routine with my exercises (add/remove)
 - As a user, I want to view different workouts that I've made
@@ -24,68 +27,3 @@ in programming.
 - As a user, I want to know if I was able to meet my goal for sets and reps
 - As a user, I want to save a workout routine
 - As a user, I want to load a workout routine from file and use it during a session
-
-## Phase 4 Deliverables:
-### Task 2:
-Wed Nov 24 11:42:31 PST 2021
-Wrote to file ./data/p4t2_test.json
-
-Wed Nov 24 11:42:35 PST 2021
-p4t2 testsession initiated with Pushup
-
-Wed Nov 24 11:42:37 PST 2021
-One set of Pushup completed in p4t2 test
-
-Wed Nov 24 11:42:38 PST 2021
-One set of Pushup completed in p4t2 test
-
-Wed Nov 24 11:42:38 PST 2021
-One set of Pushup completed in p4t2 test
-
-Wed Nov 24 11:42:38 PST 2021
-One set of Pushup completed in p4t2 test
-
-Wed Nov 24 11:42:39 PST 2021
-One set of Pushup completed in p4t2 test
-
-Wed Nov 24 11:42:39 PST 2021
-Pushup completed, Pullup begun
-
-Wed Nov 24 11:42:39 PST 2021
-One set of Pullup completed in p4t2 test
-
-Wed Nov 24 11:42:39 PST 2021
-One set of Pullup completed in p4t2 test
-
-Wed Nov 24 11:42:39 PST 2021
-One set of Pullup completed in p4t2 test
-
-Wed Nov 24 11:42:39 PST 2021
-One set of Pullup completed in p4t2 test
-
-Wed Nov 24 11:42:40 PST 2021
-One set of Pullup completed in p4t2 test
-
-Wed Nov 24 11:42:40 PST 2021
-Pullup completed, Crunch begun
-
-Wed Nov 24 11:42:41 PST 2021
-One set of Crunch completed in p4t2 test
-
-Wed Nov 24 11:42:42 PST 2021
-One set of Crunch completed in p4t2 test
-
-Wed Nov 24 11:42:42 PST 2021
-Crunch skipped
-
-Wed Nov 24 11:42:42 PST 2021
-All exercises in p4t2 test completed
-
-Wed Nov 24 11:42:42 PST 2021
-p4t2 test session terminated
-
-### Task 3:
-I think the only thing that I would refactor is to have some way to abstract the similarities between the GUI and
-Console apps. Most of the fields were shared as well as a number of methods. In particular, the methods used for the
-persistence mechanism were almost identical. I did not follow through with this since my GUI app is already extending a
-JFrame. I was unsure of how I would be able to have it inherit methods from two different classes.
